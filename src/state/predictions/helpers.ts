@@ -1,6 +1,6 @@
 import { request, gql } from 'graphql-request'
 import { GRAPH_API_PREDICTION } from 'config/constants/endpoints'
-import { ethers } from 'ethers'
+import { ethers, BigNumber} from 'ethers'
 import {
   Bet,
   LedgerData,
@@ -16,7 +16,7 @@ import {
 } from 'state/types'
 import { multicallv2 } from 'utils/multicall'
 import { getPredictionsContract } from 'utils/contractHelpers'
-import predictionsAbi from 'config/abi/predictions.json'
+import predictionsAbi from 'config/abi/bambamPredict.json'
 import { getPredictionsAddress } from 'utils/addressHelpers'
 import { PredictionsClaimableResponse, PredictionsLedgerResponse, PredictionsRoundsResponse } from 'utils/types'
 import {
@@ -373,33 +373,54 @@ export type MarketData = Pick<
 >
 export const getPredictionData = async (): Promise<MarketData> => {
   const address = getPredictionsAddress()
-  const staticCalls = ['currentEpoch', 'intervalSeconds', 'minBetAmount', 'paused', 'bufferSeconds'].map((method) => ({
+  const staticCalls = ['currentEpoch', 'intervalSeconds', 'minBetAmount'].map((method) => ({
     address,
     name: method,
   }))
-  const [[currentEpoch], [intervalSeconds], [minBetAmount], [paused], [bufferSeconds]] = await multicallv2(
+  const [[currentEpoch], [intervalSeconds], [minBetAmount]] = await multicallv2(
     predictionsAbi,
     staticCalls,
   )
 
   return {
-    status: paused ? PredictionStatus.PAUSED : PredictionStatus.LIVE,
+    status: PredictionStatus.LIVE,
     currentEpoch: currentEpoch.toNumber(),
-    intervalSeconds: intervalSeconds.toNumber(),
+    intervalSeconds,
     minBetAmount: minBetAmount.toString(),
-    bufferSeconds: bufferSeconds.toNumber(),
+    bufferSeconds: 30,
   }
 }
 
 export const getRoundsData = async (epochs: number[]): Promise<PredictionsRoundsResponse[]> => {
   const address = getPredictionsAddress()
-  const calls = epochs.map((epoch) => ({
+  const rounds = epochs.map((epoch) => ({
     address,
     name: 'rounds',
     params: [epoch],
   }))
-  const response = await multicallv2<PredictionsRoundsResponse[]>(predictionsAbi, calls)
-  return response
+  const timestamps = epochs.map((epoch) => ({
+    address,
+    name: 'timestamps',
+    params: [epoch],
+  }))
+  const response = await multicallv2(predictionsAbi, rounds.concat(timestamps))
+  const roundsResponse :PredictionsRoundsResponse[] = epochs.map( (value, index, array) => ({
+    epoch: BigNumber.from(value), 
+    startTimestamp: BigNumber.from(response[response.length/2 + index].startTimestamp),
+    lockTimestamp: BigNumber.from(response[response.length/2 + index].lockTimestamp),
+    closeTimestamp: BigNumber.from(response[response.length/2 + index].closeTimestamp),
+    lockPrice: response[index].lockPrice,
+    closePrice: response[index].closePrice,
+    lockOracleId: response[index].lockOracleId,
+    closeOracleId: response[index].closeOracleId,
+    totalAmount: response[index].totalAmount,
+    bullAmount: response[index].bullAmount,
+    bearAmount: response[index].bearAmount,
+    rewardBaseCalAmount: response[index].rewardBaseCalAmount,
+    rewardAmount: response[index].rewardAmount,
+    oracleCalled: response[index].oracleCalled,
+  }))
+  return roundsResponse
 }
 
 export const makeFutureRoundResponse = (epoch: number, startTimestamp: number): ReduxNodeRound => {

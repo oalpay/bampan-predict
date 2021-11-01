@@ -59,7 +59,7 @@ const Predictions = () => {
   }, [initialBlock, dispatch, account])
 
   usePollPredictions()
-  usePollOraclePrice()
+  // usePollOraclePrice()
 
   if (status === PredictionStatus.INITIAL) {
     return <PageLoader />
