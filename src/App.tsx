@@ -18,14 +18,12 @@ import EasterEgg from './components/EasterEgg'
 import GlobalCheckClaimStatus from './components/GlobalCheckClaimStatus'
 import history from './routerHistory'
 
-
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Predictions = lazy(() => import('./views/Predictions'))
 const NotFound = lazy(() => import('./views/NotFound'))
 const PredictionsLeaderboard = lazy(() => import('./views/Predictions/Leaderboard'))
 const Info = lazy(() => import('./views/Info'))
-const ProfileCreation = lazy(() => import('./views/ProfileCreation'))
 
 // This config is required for number formatting
 BigNumber.config({

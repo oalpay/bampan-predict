@@ -1,6 +1,6 @@
 import { request, gql } from 'graphql-request'
 import { GRAPH_API_PREDICTION } from 'config/constants/endpoints'
-import { ethers, BigNumber} from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import {
   Bet,
   LedgerData,
@@ -377,10 +377,7 @@ export const getPredictionData = async (): Promise<MarketData> => {
     address,
     name: method,
   }))
-  const [[currentEpoch], [intervalSeconds], [minBetAmount]] = await multicallv2(
-    predictionsAbi,
-    staticCalls,
-  )
+  const [[currentEpoch], [intervalSeconds], [minBetAmount]] = await multicallv2(predictionsAbi, staticCalls)
 
   return {
     status: PredictionStatus.LIVE,
@@ -404,11 +401,11 @@ export const getRoundsData = async (epochs: number[]): Promise<PredictionsRounds
     params: [epoch],
   }))
   const response = await multicallv2(predictionsAbi, rounds.concat(timestamps))
-  const roundsResponse :PredictionsRoundsResponse[] = epochs.map( (value, index, array) => ({
-    epoch: BigNumber.from(value), 
-    startTimestamp: BigNumber.from(response[response.length/2 + index].startTimestamp),
-    lockTimestamp: BigNumber.from(response[response.length/2 + index].lockTimestamp),
-    closeTimestamp: BigNumber.from(response[response.length/2 + index].closeTimestamp),
+  const roundsResponse: PredictionsRoundsResponse[] = epochs.map((value, index) => ({
+    epoch: BigNumber.from(value),
+    startTimestamp: BigNumber.from(response[response.length / 2 + index].startTimestamp),
+    lockTimestamp: BigNumber.from(response[response.length / 2 + index].lockTimestamp),
+    closeTimestamp: BigNumber.from(response[response.length / 2 + index].closeTimestamp),
     lockPrice: response[index].lockPrice,
     closePrice: response[index].closePrice,
     lockOracleId: response[index].lockOracleId,
