@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text, PancakeToggle, Flex, Modal, InjectedModalProps, ThemeSwitcher } from '@pancakeswap/uikit'
-import {
-  useAudioModeManager,
-} from 'state/user/hooks'
+import { useAudioModeManager } from 'state/user/hooks'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import QuestionHelper from '../../QuestionHelper'
@@ -17,7 +15,6 @@ const ScrollableContainer = styled(Flex)`
   }
 `
 const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
-
   const [audioPlay, toggleSetAudioMode] = useAudioModeManager()
   const { t } = useTranslation()
   const { isDark, toggleTheme } = useTheme()

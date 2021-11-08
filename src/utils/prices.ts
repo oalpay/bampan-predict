@@ -1,7 +1,5 @@
 import { Price } from '@pancakeswap/sdk'
 
-
-
 /**
  * Helper to multiply a Price object by an arbitrary amount
  */

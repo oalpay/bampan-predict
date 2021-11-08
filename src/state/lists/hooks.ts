@@ -1,7 +1,6 @@
 import { Token } from '@pancakeswap/sdk'
 import { Tags, TokenInfo } from '@uniswap/token-lists'
 
-
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
   id: string

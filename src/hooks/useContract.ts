@@ -38,7 +38,6 @@ export const useERC721 = (address: string) => {
   return useMemo(() => getErc721Contract(address, library.getSigner()), [address, library])
 }
 
-
 export const usePredictionsContract = () => {
   const { library } = useActiveWeb3React()
   return useMemo(() => getPredictionsContract(library.getSigner()), [library])
@@ -48,7 +47,6 @@ export const useChainlinkOracleContract = () => {
   const { library } = useActiveWeb3React()
   return useMemo(() => getChainlinkOracleContract(library.getSigner()), [library])
 }
-
 
 export const useErc721CollectionContract = (collectionAddress: string) => {
   const { library } = useActiveWeb3React()

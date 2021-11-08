@@ -2,7 +2,6 @@ import { createReducer } from '@reduxjs/toolkit'
 import { DEFAULT_DEADLINE_FROM_NOW } from '../../config/constants'
 import { updateVersion } from '../global/actions'
 import {
-
   muteAudio,
   toggleTheme,
   unmuteAudio,
@@ -70,5 +69,5 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateGasPrice, (state, action) => {
       state.gasPrice = action.payload.gasPrice
-    })
+    }),
 )

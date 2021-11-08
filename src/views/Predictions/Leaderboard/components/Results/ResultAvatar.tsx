@@ -46,7 +46,7 @@ const ResultAvatar: React.FC<ResultAvatarProps> = ({ user, ...props }) => {
             width={['32px', null, null, null, null, '40px']}
             height={['32px', null, null, null, null, '40px']}
           >
-             osman
+            osman
           </AvatarWrapper>
         </Flex>
       }

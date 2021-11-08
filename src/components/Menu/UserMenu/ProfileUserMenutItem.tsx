@@ -44,11 +44,7 @@ const ProfileUserMenuItem: React.FC<ProfileUserMenuItemProps> = ({ isLoading, ha
     )
   }
 
-  return (
-    <UserMenuItem as="button">
-      {t('Your Profile')}
-    </UserMenuItem>
-  )
+  return <UserMenuItem as="button">{t('Your Profile')}</UserMenuItem>
 }
 
 export default ProfileUserMenuItem

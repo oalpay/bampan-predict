@@ -11,7 +11,7 @@ import {
   updateUserPredictionChartDisclaimerShow,
   updateUserPredictionAcceptedRisk,
 } from '../actions'
-import {  GAS_PRICE_GWEI } from './helpers'
+import { GAS_PRICE_GWEI } from './helpers'
 
 export function useAudioModeManager(): [boolean, () => void] {
   const dispatch = useDispatch<AppDispatch>()
@@ -27,7 +27,6 @@ export function useAudioModeManager(): [boolean, () => void] {
 
   return [audioPlay, toggleSetAudioMode]
 }
-
 
 export function useThemeManager(): [boolean, () => void] {
   const dispatch = useDispatch<AppDispatch>()

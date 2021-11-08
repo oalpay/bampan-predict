@@ -65,7 +65,7 @@ const RankingCard: React.FC<RankingCardProps> = ({ rank, user }) => {
                   <RotatedLaurelRightIcon color={rankColor} width="32px" />
                 </Flex>
                 <Text color="primary" fontWeight="bold" textAlign="center">
-                avatar
+                  avatar
                 </Text>
               </>
             }

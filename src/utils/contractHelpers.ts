@@ -2,11 +2,7 @@ import { ethers } from 'ethers'
 import { simpleRpcProvider } from 'utils/providers'
 
 // Addresses
-import {
-  getPredictionsAddress,
-  getChainlinkOracleAddress,
-  getMulticallAddress,
-} from 'utils/addressHelpers'
+import { getPredictionsAddress, getChainlinkOracleAddress, getMulticallAddress } from 'utils/addressHelpers'
 
 // ABI
 

@@ -27,7 +27,6 @@ BigNumber.config({
 })
 
 const App: React.FC = () => {
-
   usePollBlockNumber()
   useEagerConnect()
   useScrollOnRouteChange()
