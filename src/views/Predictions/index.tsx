@@ -18,6 +18,7 @@ import Desktop from './Desktop'
 import Mobile from './Mobile'
 import RiskDisclaimer from './components/RiskDisclaimer'
 import ChartDisclaimer from './components/ChartDisclaimer'
+import usePollOraclePrice from './hooks/usePollOraclePrice'
 
 const Predictions = () => {
   const { isDesktop } = useMatchBreakpoints()
@@ -58,7 +59,7 @@ const Predictions = () => {
   }, [initialBlock, dispatch, account])
 
   usePollPredictions()
-  // usePollOraclePrice()
+  usePollOraclePrice()
 
   if (status === PredictionStatus.INITIAL) {
     return <PageLoader />

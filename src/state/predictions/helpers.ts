@@ -16,7 +16,7 @@ import {
 } from 'state/types'
 import { multicallv2 } from 'utils/multicall'
 import { getPredictionsContract } from 'utils/contractHelpers'
-import predictionsAbi from 'config/abi/bambamPredict.json'
+import predictionsAbi from 'config/abi/predictions.json'
 import { getPredictionsAddress } from 'utils/addressHelpers'
 import { PredictionsClaimableResponse, PredictionsLedgerResponse, PredictionsRoundsResponse } from 'utils/types'
 import {

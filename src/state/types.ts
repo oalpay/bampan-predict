@@ -13,7 +13,6 @@ import {
   TranslatableText,
   DeserializedFarmConfig,
 } from 'config/constants/types'
-import { NftToken, State as NftMarketState } from './nftMarket/types'
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>
 
@@ -99,7 +98,6 @@ export interface Profile {
   tokenId: number
   isActive: boolean
   username: string
-  nft?: NftToken
   team: Team
   hasRegistered: boolean
 }
@@ -162,7 +160,6 @@ export interface ProfileState {
   profileAvatars: {
     [key: string]: {
       username: string
-      nft: NftToken
       hasRegistered: boolean
       usernameFetchStatus: ProfileAvatarFetchStatus
       avatarFetchStatus: ProfileAvatarFetchStatus
@@ -410,154 +407,6 @@ export interface PredictionsState {
   }
 }
 
-// Voting
-
-/* eslint-disable camelcase */
-/**
- * @see https://hub.snapshot.page/graphql
- */
-export interface VoteWhere {
-  id?: string
-  id_in?: string[]
-  voter?: string
-  voter_in?: string[]
-  proposal?: string
-  proposal_in?: string[]
-}
-
-export enum SnapshotCommand {
-  PROPOSAL = 'proposal',
-  VOTE = 'vote',
-}
-
-export enum ProposalType {
-  ALL = 'all',
-  CORE = 'core',
-  COMMUNITY = 'community',
-}
-
-export enum ProposalState {
-  ACTIVE = 'active',
-  PENDING = 'pending',
-  CLOSED = 'closed',
-}
-
-export interface Space {
-  id: string
-  name: string
-}
-
-export interface Proposal {
-  author: string
-  body: string
-  choices: string[]
-  end: number
-  id: string
-  snapshot: string
-  space: Space
-  start: number
-  state: ProposalState
-  title: string
-}
-
-export interface Vote {
-  id: string
-  voter: string
-  created: number
-  space: Space
-  proposal: {
-    choices: Proposal['choices']
-  }
-  choice: number
-  metadata?: {
-    votingPower: string
-    verificationHash: string
-  }
-  _inValid?: boolean
-}
-
-export enum VotingStateLoadingStatus {
-  INITIAL = 'initial',
-  IDLE = 'idle',
-  LOADING = 'loading',
-  ERROR = 'error',
-}
-
-export interface VotingState {
-  proposalLoadingStatus: VotingStateLoadingStatus
-  proposals: {
-    [key: string]: Proposal
-  }
-  voteLoadingStatus: VotingStateLoadingStatus
-  votes: {
-    [key: string]: Vote[]
-  }
-}
-
-export interface LotteryRoundUserTickets {
-  isLoading?: boolean
-  tickets?: LotteryTicket[]
-}
-
-interface LotteryRoundGenerics {
-  isLoading?: boolean
-  lotteryId: string
-  status: LotteryStatus
-  startTime: string
-  endTime: string
-  treasuryFee: string
-  firstTicketId: string
-  lastTicketId: string
-  finalNumber: number
-}
-
-export interface LotteryRound extends LotteryRoundGenerics {
-  userTickets?: LotteryRoundUserTickets
-  priceTicketInCake: BigNumber
-  discountDivisor: BigNumber
-  amountCollectedInCake: BigNumber
-  cakePerBracket: string[]
-  countWinnersPerBracket: string[]
-  rewardsBreakdown: string[]
-}
-
-export interface LotteryResponse extends LotteryRoundGenerics {
-  priceTicketInCake: SerializedBigNumber
-  discountDivisor: SerializedBigNumber
-  amountCollectedInCake: SerializedBigNumber
-  cakePerBracket: SerializedBigNumber[]
-  countWinnersPerBracket: SerializedBigNumber[]
-  rewardsBreakdown: SerializedBigNumber[]
-}
-
-export interface LotteryState {
-  currentLotteryId: string
-  maxNumberTicketsPerBuyOrClaim: string
-  isTransitioning: boolean
-  currentRound: LotteryResponse & { userTickets?: LotteryRoundUserTickets }
-  lotteriesData?: LotteryRoundGraphEntity[]
-  userLotteryData?: LotteryUserGraphEntity
-}
-
-export interface LotteryRoundGraphEntity {
-  id: string
-  totalUsers: string
-  totalTickets: string
-  winningTickets: string
-  status: LotteryStatus
-  finalNumber: string
-  startTime: string
-  endTime: string
-  ticketPrice: SerializedBigNumber
-}
-
-export interface LotteryUserGraphEntity {
-  account: string
-  totalCake: string
-  totalTickets: string
-  rounds: UserRound[]
-}
-
 export interface UserRound {
   claimed: boolean
   lotteryId: string
@@ -572,14 +421,6 @@ export type UserTicketsResponse = [ethers.BigNumber[], number[], boolean[]]
 // Global state
 
 export interface State {
-  achievements: AchievementState
   block: BlockState
-  farms: SerializedFarmsState
-  pools: PoolsState
   predictions: PredictionsState
-  profile: ProfileState
-  teams: TeamsState
-  voting: VotingState
-  lottery: LotteryState
-  nftMarket: NftMarketState
 }

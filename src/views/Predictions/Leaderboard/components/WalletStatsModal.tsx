@@ -7,19 +7,12 @@ import {
   Text,
   IconButton,
   InjectedModalProps,
-  LinkExternal,
   ModalContainer,
   ModalHeader,
-  ProfileAvatar,
   useMatchBreakpoints,
   Skeleton,
-  Heading,
 } from '@pancakeswap/uikit'
-import { useGetProfileAvatar } from 'state/profile/hooks'
 import useTheme from 'hooks/useTheme'
-import styled from 'styled-components'
-import { getBscScanLink } from 'utils'
-import truncateHash from 'utils/truncateHash'
 import { LeaderboardLoadingState } from 'state/types'
 import {
   useGetOrFetchLeaderboardAddressResult,
@@ -36,21 +29,12 @@ interface WalletStatsModalProps extends InjectedModalProps {
   onBeforeDismiss?: () => void
 }
 
-const ExternalLink = styled(LinkExternal)`
-  color: ${({ theme }) => theme.colors.text};
-
-  svg {
-    fill: ${({ theme }) => theme.colors.text};
-  }
-`
-
 const WalletStatsModal: React.FC<WalletStatsModalProps> = ({ account, onDismiss, onBeforeDismiss }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const selectedAddress = useGetSelectedAddress()
   const address = account || selectedAddress
   const result = useGetOrFetchLeaderboardAddressResult(address)
-  const profileAvatar = useGetProfileAvatar(address)
   const leaderboardLoadingState = useGetLeaderboardLoadingState()
   const isLoading = leaderboardLoadingState === LeaderboardLoadingState.LOADING
   const { isDesktop } = useMatchBreakpoints()
@@ -68,15 +52,7 @@ const WalletStatsModal: React.FC<WalletStatsModalProps> = ({ account, onDismiss,
       <ModalHeader background={theme.colors.gradients.bubblegum}>
         <Flex alignItems="center" style={{ flex: 1 }}>
           <Box width={['64px', null, null, null, null, null, '96px']} mr="16px">
-            <ProfileAvatar src={profileAvatar.nft?.image?.thumbnail} height={96} width={96} />
-          </Box>
-          <Box>
-            {profileAvatar.username && (
-              <Heading scale="lg" mb="8px">
-                {profileAvatar.username}
-              </Heading>
-            )}
-            <ExternalLink href={getBscScanLink(address, 'address')}>{truncateHash(address)}</ExternalLink>
+          osman
           </Box>
         </Flex>
         <IconButton variant="text" onClick={handleDismiss} aria-label="Close the dialog">
