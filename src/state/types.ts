@@ -1,5 +1,3 @@
-import { ThunkAction } from 'redux-thunk'
-import { AnyAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import {
@@ -13,8 +11,6 @@ import {
   TranslatableText,
   DeserializedFarmConfig,
 } from 'config/constants/types'
-
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>
 
 export interface BigNumberToJson {
   type: 'BigNumber'
