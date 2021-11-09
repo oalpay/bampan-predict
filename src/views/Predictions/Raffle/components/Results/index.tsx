@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Grid, Flex, useMatchBreakpoints, AutoRenewIcon } from '@pancakeswap/uikit'
+import {
+  Box,
+  Button,
+  Grid,
+  Flex,
+  useMatchBreakpoints,
+  AutoRenewIcon,
+  Card,
+  Table,
+  Th,
+  Td,
+  Text,
+} from '@pancakeswap/uikit'
 import { useAppDispatch } from 'state'
 import { getRaffleContract } from 'utils/contractHelpers'
 import {
@@ -13,9 +25,10 @@ import { filterNextPageLeaderboard } from 'state/predictions'
 import { LEADERBOARD_RESULTS_PER_PAGE } from 'state/predictions/helpers'
 import { useTranslation } from 'contexts/Localization'
 import Container from 'components/Layout/Container'
+import { result } from 'lodash'
+import RaffleCard from './RaffleCard'
 import DesktopResults from './DesktopResults'
 import MobileResults from './MobileResults'
-import RaffleCard from './RaffleCard'
 
 const Results = () => {
   const { isDesktop } = useMatchBreakpoints()
@@ -32,7 +45,9 @@ const Results = () => {
   }
 
   const [roundNo, setRoundNo] = useState(null)
+  const [timeLeft, setTimeLeft] = useState(null)
   const [currentRound, setCurrentRound] = useState(null)
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     const contract = getRaffleContract()
@@ -43,7 +58,21 @@ const Results = () => {
         const round = await contract.rounds(no)
         setRoundNo(no)
         setCurrentRound(round)
-        return round
+
+        const roundDuration = await contract.minRoundDuration()
+        setTimeLeft(Date.now() / 1000 - roundDuration)
+
+        try {
+          const api = await fetch(
+            `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/roundTickets?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=1`,
+          )
+          const data = await api.json()
+          setUsers(data.result)
+        } catch (err) {
+          return false
+        }
+
+        return true
       } catch {
         return null
       }
@@ -58,10 +87,35 @@ const Results = () => {
           gridGap={['16px', null, null, null, null, '24px']}
           gridTemplateColumns={['1fr', null, null, null, null, 'repeat(3, 1fr)']}
         >
-          {currentRound && <RaffleCard round={roundNo} data={currentRound} user={first} />}
+          {currentRound && <RaffleCard round={roundNo} time={timeLeft} data={currentRound} user={first} />}
         </Grid>
       </Container>
-      {isDesktop ? <DesktopResults results={rest} /> : <MobileResults results={rest} />}
+      <Container mb="24px">
+        <Card>
+          <Table>
+            <thead>
+              <tr>
+                <Th width="60px">&nbsp;</Th>
+                <Th textAlign="center">{t('User')}</Th>
+                <Th textAlign="center">{t('Ticket Count')}</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map(function (user, i) {
+                return (
+                  <tr key={user.objectId}>
+                    <Td>
+                      <Text textAlign="center" fontWeight="bold" color="secondary">{`#${i + 1}`}</Text>
+                    </Td>
+                    <Td textAlign="center">{user.objectId}</Td>
+                    <Td textAlign="center">{user.totalTicket}</Td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+        </Card>
+      </Container>
       <Flex mb="40px" justifyContent="center">
         {hasMoreResults && (
           <Button

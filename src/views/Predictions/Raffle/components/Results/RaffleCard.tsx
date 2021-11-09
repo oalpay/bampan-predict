@@ -23,6 +23,7 @@ import { NetWinningsRow, Row } from './styles'
 interface RaffleCardProps {
   round: number
   data: any
+  time: string
   user: PredictionUser
 }
 
@@ -34,7 +35,7 @@ const RotatedLaurelRightIcon = styled(LaurelRightIcon)`
   transform: rotate(-30deg);
 `
 
-const RaffleCard: React.FC<RaffleCardProps> = ({ round, data, user }) => {
+const RaffleCard: React.FC<RaffleCardProps> = ({ round, data, time, user }) => {
   const { t } = useTranslation()
   const [onPresentWalletStatsModal] = useModal(<WalletStatsModal account={user.id} />)
 
@@ -50,7 +51,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ round, data, user }) => {
             Time Left:
           </Text>
           <Text color="primary" fontWeight="bold" textAlign="center">
-            03:21:19
+            {`${time}`}
           </Text>
         </Flex>
         <Row mb="4px">
