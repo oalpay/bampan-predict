@@ -2,7 +2,12 @@ import { ethers } from 'ethers'
 import { simpleRpcProvider } from 'utils/providers'
 
 // Addresses
-import { getPredictionsAddress, getChainlinkOracleAddress, getMulticallAddress } from 'utils/addressHelpers'
+import {
+  getPredictionsAddress,
+  getChainlinkOracleAddress,
+  getMulticallAddress,
+  getRaffleAddress,
+} from 'utils/addressHelpers'
 
 // ABI
 
@@ -13,6 +18,7 @@ import predictionsAbi from 'config/abi/predictions.json'
 import chainlinkOracleAbi from 'config/abi/chainlinkOracle.json'
 import MultiCallAbi from 'config/abi/Multicall.json'
 import erc721CollctionAbi from 'config/abi/erc721collection.json'
+import RaffleAbi from 'config/abi/raffle.json'
 import { ChainLinkOracleContract, PredictionsContract } from './types'
 
 const getContract = (abi: any, address: string, signer?: ethers.Signer | ethers.providers.Provider) => {
@@ -40,4 +46,8 @@ export const getMulticallContract = (signer?: ethers.Signer | ethers.providers.P
 
 export const getErc721CollectionContract = (signer?: ethers.Signer | ethers.providers.Provider, address?: string) => {
   return getContract(erc721CollctionAbi, address, signer)
+}
+
+export const getRaffleContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getContract(RaffleAbi, getRaffleAddress(), signer)
 }

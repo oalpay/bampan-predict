@@ -14,4 +14,9 @@ export default {
     97: '',
     80001: '0xB8ce593E3C94Ad25Bc87D7e3e484C98A4A82335E',
   },
+  raffle: {
+    56: '',
+    97: '',
+    80001: '0xAc506805dB66e508DEE4770c48430e6D33cc30bf',
+  },
 }

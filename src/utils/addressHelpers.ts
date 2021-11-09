@@ -18,3 +18,7 @@ export const getPredictionsAddress = () => {
 export const getChainlinkOracleAddress = () => {
   return getAddress(addresses.chainlinkOracle)
 }
+
+export const getRaffleAddress = () => {
+  return getAddress(addresses.raffle)
+}

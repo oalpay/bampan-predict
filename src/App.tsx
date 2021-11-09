@@ -19,6 +19,7 @@ import history from './routerHistory'
 const Predictions = lazy(() => import('./views/Predictions'))
 const NotFound = lazy(() => import('./views/NotFound'))
 const PredictionsLeaderboard = lazy(() => import('./views/Predictions/Leaderboard'))
+const Raffle = lazy(() => import('./views/Predictions/Raffle'))
 
 // This config is required for number formatting
 BigNumber.config({
@@ -44,6 +45,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/leaderboard">
               <PredictionsLeaderboard />
+            </Route>
+            <Route path="/raffle">
+              <Raffle />
             </Route>
             {/* 404 */}
             <Route component={NotFound} />
