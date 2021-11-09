@@ -1,5 +1,5 @@
 import React from 'react'
-import Lottie from 'react-lottie'
+// import Lottie from 'react-lottie'
 import { Card, CardBody, Flex, Spinner, WaitIcon, TooltipText, useTooltip, InfoIcon } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { NodeRound, BetPosition } from 'state/types'
@@ -31,7 +31,7 @@ const CalculatingCard: React.FC<CalculatingCardProps> = ({ round, hasEnteredUp, 
       preserveAspectRatio: 'xMidYMid slice',
     },
   }
-
+  // <Lottie options={defaultOptions} height={100} width={100} />
   return (
     <>
       <Card borderBackground={getBorderBackground(theme, 'calculating')}>
@@ -45,7 +45,6 @@ const CalculatingCard: React.FC<CalculatingCardProps> = ({ round, hasEnteredUp, 
           <MultiplierArrow isDisabled hasEntered={hasEnteredUp} />
           <RoundResultBox>
             <Flex alignItems="center" justifyContent="center" flexDirection="column">
-              <Lottie options={defaultOptions} height={100} width={100} />
               <Flex mt="8px" ref={targetRef}>
                 <TooltipText>{t('Calculating')}</TooltipText>
                 <InfoIcon ml="4px" />
