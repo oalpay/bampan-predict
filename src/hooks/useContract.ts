@@ -6,6 +6,7 @@ import {
   getPredictionsContract,
   getChainlinkOracleContract,
   getErc721CollectionContract,
+  getRaffleContract,
 } from 'utils/contractHelpers'
 import { getMulticallAddress } from 'utils/addressHelpers'
 
@@ -110,4 +111,9 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 
 export function useMulticallContract(): Contract | null {
   return useContract(getMulticallAddress(), multiCallAbi, false)
+}
+
+export const useRaffleContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getRaffleContract(library.getSigner()), [library])
 }

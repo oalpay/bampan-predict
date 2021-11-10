@@ -6,12 +6,10 @@ import Hero from './components/Hero'
 import Results from './components/Results'
 
 const Raffle = () => {
-
   return (
     <>
       <PageMeta />
       <Hero />
-      <br/>
       <Results />
     </>
   )

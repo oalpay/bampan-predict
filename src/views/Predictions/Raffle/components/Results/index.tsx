@@ -23,6 +23,7 @@ import { result } from 'lodash'
 import RaffleCard from './RaffleCard'
 import RaffleCardWinner from './RaffleCardWinner'
 import UserRaffleRound from './UserRaffleRound'
+import ExecuteRaffleRoundModal from '../ExecuteRaffleRoundModal'
 import DesktopResults from './DesktopResults'
 import MobileResults from './MobileResults'
 
@@ -38,12 +39,19 @@ const Results = () => {
   const [users, setUsers] = useState([])
   const [userTicketCount, setUserTicketCount] = useState(0)
   const [winnerData, setWinnerData] = useState(null)
+  const [readyForCalculate, setReadyForCalculate] = useState(false)
+  const [roundCalculated, setRoundCalculated] = useState(0)
+
+  const handleRaffleRoundCalculated = () => {
+    setRoundCalculated(roundCalculated + 1)
+  }
 
   useEffect(() => {
     const contract = getRaffleContract()
 
     async function fetchData() {
       try {
+        console.log('cem fetchin')
         const no = await contract.currentRound()
         const round = await contract.rounds(no)
         setRoundNo(no)
@@ -53,6 +61,8 @@ const Results = () => {
         const time = Number(round.startTimestamp) + Number(roundDuration) - Math.round(Date.now() / 1000)
         if (time < 0) setTimeLeft('Waiting to calculate')
         else setTimeLeft(time.toString())
+
+        if (time < -1800) setReadyForCalculate(true)
 
         try {
           const api = await fetch(
@@ -70,7 +80,7 @@ const Results = () => {
       }
     }
     fetchData()
-  }, [])
+  }, [roundCalculated])
 
   useEffect(() => {
     async function fetchData() {
@@ -87,7 +97,7 @@ const Results = () => {
     }
 
     if (account && roundNo > 0) fetchData()
-  }, [account, roundNo])
+  }, [account, roundNo, roundCalculated])
 
   useEffect(() => {
     const contract = getRaffleContract()
@@ -107,6 +117,11 @@ const Results = () => {
 
   return (
     <Box>
+      {account && readyForCalculate && (
+        <Container mb="16px">
+          <ExecuteRaffleRoundModal handle={handleRaffleRoundCalculated} />
+        </Container>
+      )}
       <Container mb="16px">
         <Grid
           gridGap={['16px', null, null, null, null, '24px']}
