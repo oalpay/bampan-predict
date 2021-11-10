@@ -15,15 +15,7 @@ import {
 } from '@pancakeswap/uikit'
 import { useAppDispatch } from 'state'
 import { getRaffleContract } from 'utils/contractHelpers'
-import {
-  useGetLeaderboardHasMoreResults,
-  useGetLeaderboardLoadingState,
-  useGetLeaderboardResults,
-  useGetLeaderboardSkip,
-} from 'state/predictions/hooks'
 import { LeaderboardLoadingState } from 'state/types'
-import { filterNextPageLeaderboard } from 'state/predictions'
-import { LEADERBOARD_RESULTS_PER_PAGE } from 'state/predictions/helpers'
 import { useTranslation } from 'contexts/Localization'
 import Container from 'components/Layout/Container'
 import BigNumber from 'bignumber.js'
@@ -37,17 +29,8 @@ import MobileResults from './MobileResults'
 const Results = () => {
   const { isDesktop } = useMatchBreakpoints()
   const { t } = useTranslation()
-  const [first, second, third, ...rest] = useGetLeaderboardResults()
-  const leaderboardLoadingState = useGetLeaderboardLoadingState()
-  const isLoading = leaderboardLoadingState === LeaderboardLoadingState.LOADING
-  const currentSkip = useGetLeaderboardSkip()
-  const hasMoreResults = useGetLeaderboardHasMoreResults()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-
-  const handleClick = () => {
-    dispatch(filterNextPageLeaderboard(currentSkip + LEADERBOARD_RESULTS_PER_PAGE))
-  }
 
   const [roundNo, setRoundNo] = useState(null)
   const [timeLeft, setTimeLeft] = useState(null)
@@ -112,7 +95,7 @@ const Results = () => {
     async function fetchData() {
       try {
         const round = await contract.rounds(roundNo - 1)
-        setWinnerData({amount:round.amount, address:round.winner});
+        setWinnerData({ amount: round.amount, address: round.winner })
 
         return true
       } catch {
@@ -131,7 +114,7 @@ const Results = () => {
         >
           {currentRound && <RaffleCard round={roundNo} time={timeLeft} data={currentRound} />}
           {userTicketCount > 0 && <UserRaffleRound round={roundNo} ticketCount={userTicketCount} />}
-          {winnerData && <RaffleCardWinner round={roundNo-1} data={winnerData} />}
+          {winnerData && <RaffleCardWinner round={roundNo - 1} data={winnerData} />}
         </Grid>
       </Container>
       <Container mb="24px">
@@ -139,7 +122,7 @@ const Results = () => {
           <Table>
             <thead>
               <tr>
-                <Th width="60px">&nbsp;</Th>
+                <Th width="60px">{t('Top 10')}</Th>
                 <Th textAlign="center">{t('User')}</Th>
                 <Th textAlign="center">{t('Ticket Count')}</Th>
               </tr>
@@ -160,18 +143,6 @@ const Results = () => {
           </Table>
         </Card>
       </Container>
-      <Flex mb="40px" justifyContent="center">
-        {hasMoreResults && (
-          <Button
-            variant="secondary"
-            isLoading={isLoading}
-            endIcon={isLoading ? <AutoRenewIcon spin color="currentColor" /> : undefined}
-            onClick={handleClick}
-          >
-            {isLoading ? t('Loading...') : t('View More')}
-          </Button>
-        )}
-      </Flex>
     </Box>
   )
 }

@@ -47,7 +47,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ round, data }) => {
           <Text color="primary" fontWeight="bold" textAlign="center">
             Winner:
           </Text>
-          <Text color="primary" fontSize="12px"  fontWeight="bold" textAlign="center">
+          <Text color="primary" fontSize="12px" fontWeight="bold" textAlign="center">
             {`${data.address}`}
           </Text>
         </Flex>
