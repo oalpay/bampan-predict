@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
 import {
   Box,
   Button,
@@ -25,8 +26,10 @@ import { filterNextPageLeaderboard } from 'state/predictions'
 import { LEADERBOARD_RESULTS_PER_PAGE } from 'state/predictions/helpers'
 import { useTranslation } from 'contexts/Localization'
 import Container from 'components/Layout/Container'
+import BigNumber from 'bignumber.js'
 import { result } from 'lodash'
 import RaffleCard from './RaffleCard'
+import UserRaffleRound from './UserRaffleRound'
 import DesktopResults from './DesktopResults'
 import MobileResults from './MobileResults'
 
@@ -39,6 +42,8 @@ const Results = () => {
   const currentSkip = useGetLeaderboardSkip()
   const hasMoreResults = useGetLeaderboardHasMoreResults()
   const dispatch = useAppDispatch()
+  const { account } = useWeb3React()
+  
 
   const handleClick = () => {
     dispatch(filterNextPageLeaderboard(currentSkip + LEADERBOARD_RESULTS_PER_PAGE))
@@ -48,7 +53,8 @@ const Results = () => {
   const [timeLeft, setTimeLeft] = useState(null)
   const [currentRound, setCurrentRound] = useState(null)
   const [users, setUsers] = useState([])
-
+  const [userTicketCount, setUserTicketCount] = useState(0);
+  
   useEffect(() => {
     const contract = getRaffleContract()
 
@@ -60,7 +66,9 @@ const Results = () => {
         setCurrentRound(round)
 
         const roundDuration = await contract.minRoundDuration()
-        setTimeLeft(Date.now() / 1000 - roundDuration)
+        const time = Number(round.startTimestamp)+Number(roundDuration)-Math.round(Date.now() / 1000);
+        if(time < 0) setTimeLeft('Waiting to calculate');
+        else setTimeLeft(time.toString());
 
         try {
           const api = await fetch(
@@ -80,6 +88,24 @@ const Results = () => {
     fetchData()
   }, [])
 
+  useEffect(()=> {
+    async function fetchData() {
+      try {
+        const api = await fetch(
+          `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/userRoundTickets?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=${roundNo}&user=${account}`,
+        )
+        const data = await api.json()
+        if(data.result[0] && data.result[0].totalTicket)
+          setUserTicketCount(data.result[0].totalTicket)
+        return true
+      } catch (err) {
+        return false
+      }
+    }
+
+    if(account && roundNo > 0) fetchData();
+  }, [account, roundNo]);
+
   return (
     <Box>
       <Container mb="16px">
@@ -87,7 +113,8 @@ const Results = () => {
           gridGap={['16px', null, null, null, null, '24px']}
           gridTemplateColumns={['1fr', null, null, null, null, 'repeat(3, 1fr)']}
         >
-          {currentRound && <RaffleCard round={roundNo} time={timeLeft} data={currentRound} user={first} />}
+          {currentRound && <RaffleCard round={roundNo} time={timeLeft} data={currentRound} />}
+          {userTicketCount>0 && <UserRaffleRound round={roundNo} ticketCount={userTicketCount} />}
         </Grid>
       </Container>
       <Container mb="24px">

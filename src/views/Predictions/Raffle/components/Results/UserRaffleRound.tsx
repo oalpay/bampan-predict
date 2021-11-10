@@ -13,6 +13,7 @@ import {
   SubMenuItem,
   useModal,
 } from '@pancakeswap/uikit'
+import { PredictionUser } from 'state/types'
 import styled from 'styled-components'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
@@ -21,8 +22,7 @@ import { NetWinningsRow, Row } from './styles'
 
 interface RaffleCardProps {
   round: number
-  data: any
-  time: string
+  ticketCount: number
 }
 
 const RotatedLaurelLeftIcon = styled(LaurelLeftIcon)`
@@ -33,36 +33,24 @@ const RotatedLaurelRightIcon = styled(LaurelRightIcon)`
   transform: rotate(-30deg);
 `
 
-const RaffleCard: React.FC<RaffleCardProps> = ({ round, data, time }) => {
+const RaffleCard: React.FC<RaffleCardProps> = ({ round, ticketCount }) => {
   const { t } = useTranslation()
 
   return (
-    <Card ribbon={<CardRibbon variantColor="gold" text={`Round ${round}`} ribbonPosition="left" />}>
+    <Card ribbon={<CardRibbon variantColor="silver" text={`Round ${round}`} ribbonPosition="left" />}>
       <CardBody p="24px">
         <Flex alignItems="center" justifyContent="center" flexDirection="column" mb="24px">
           <Flex mb="4px">
-            <RotatedLaurelLeftIcon color="gold" width="32px" />
-            <RotatedLaurelRightIcon color="gold" width="32px" />
+            <RotatedLaurelLeftIcon color="silver" width="32px" />
+            <RotatedLaurelRightIcon color="silver" width="32px" />
           </Flex>
           <Text color="primary" fontWeight="bold" textAlign="center">
-            Time Left:
+            My Tickets:
           </Text>
           <Text color="primary" fontWeight="bold" textAlign="center">
-            {`${time}`}
+            {`${ticketCount}`}
           </Text>
         </Flex>
-        <Row mb="4px">
-          <Text fontSize="12px" color="textSubtle">
-            {t('Total Tickets')}
-          </Text>
-          <Text fontWeight="bold">{`${data.ticketCount}`}</Text>
-        </Row>
-        <Row mb="4px">
-          <Text fontSize="12px" color="textSubtle">
-            {t('Total Amount')}
-          </Text>
-          <Text fontWeight="bold">{`${data.amount}`}</Text>
-        </Row>
       </CardBody>
     </Card>
   )
