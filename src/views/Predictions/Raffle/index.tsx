@@ -28,7 +28,6 @@ const Leaderboard = () => {
   return (
     <>
       <PageMeta />
-      <Hero />
       <Filters />
       <ConnectedWalletResult />
       <Results />

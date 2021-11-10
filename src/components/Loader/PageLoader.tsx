@@ -1,5 +1,5 @@
 import React from 'react'
-// import Lottie from 'react-lottie'
+import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import Page from '../Layout/Page'
 import animationData from './testanim.json'
@@ -19,10 +19,8 @@ const defaultOptions = {
   },
 }
 
-// <Lottie options={defaultOptions} height={400} width={400} />
-
 const PageLoader: React.FC = () => {
-  return <Wrapper>loading...</Wrapper>
+  return <Lottie options={defaultOptions} height={400} width={400} />
 }
 
 export default PageLoader

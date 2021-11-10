@@ -7,12 +7,13 @@ import useUserAgent from 'hooks/useUserAgent'
 import useScrollOnRouteChange from 'hooks/useScrollOnRouteChange'
 import { usePollBlockNumber } from 'state/block/hooks'
 import { DatePickerPortal } from 'components/DatePicker'
-import GlobalStyle from './style/Global'
-import Menu from './components/Menu'
+import Navbar from 'components/Navbar'
+
 import SuspenseWithChunkError from './components/SuspenseWithChunkError'
 import { ToastListener } from './contexts/ToastsContext'
 import PageLoader from './components/Loader/PageLoader'
 import history from './routerHistory'
+import GlobalStyle from './style/Global'
 
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
@@ -37,23 +38,22 @@ const App: React.FC = () => {
     <Router history={history}>
       <ResetCSS />
       <GlobalStyle />
-      <Menu>
-        <SuspenseWithChunkError fallback={<PageLoader />}>
-          <Switch>
-            <Route path="/" exact>
-              <Predictions />
-            </Route>
-            <Route path="/leaderboard">
-              <PredictionsLeaderboard />
-            </Route>
-            <Route path="/raffle">
-              <Raffle />
-            </Route>
-            {/* 404 */}
-            <Route component={NotFound} />
-          </Switch>
-        </SuspenseWithChunkError>
-      </Menu>
+      <Navbar />
+      <SuspenseWithChunkError fallback={<PageLoader />}>
+        <Switch>
+          <Route path="/" exact>
+            <Predictions />
+          </Route>
+          <Route path="/predictions/leaderboard">
+            <PredictionsLeaderboard />
+          </Route>
+          <Route path="/raffle">
+            <Raffle />
+          </Route>
+          {/* 404 */}
+          <Route component={NotFound} />
+        </Switch>
+      </SuspenseWithChunkError>
       <ToastListener />
       <DatePickerPortal />
     </Router>
