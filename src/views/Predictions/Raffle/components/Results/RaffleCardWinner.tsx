@@ -13,6 +13,7 @@ import {
   SubMenuItem,
   useModal,
 } from '@pancakeswap/uikit'
+import { PredictionUser } from 'state/types'
 import styled from 'styled-components'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
@@ -22,7 +23,6 @@ import { NetWinningsRow, Row } from './styles'
 interface RaffleCardProps {
   round: number
   data: any
-  time: string
 }
 
 const RotatedLaurelLeftIcon = styled(LaurelLeftIcon)`
@@ -33,30 +33,24 @@ const RotatedLaurelRightIcon = styled(LaurelRightIcon)`
   transform: rotate(-30deg);
 `
 
-const RaffleCard: React.FC<RaffleCardProps> = ({ round, data, time }) => {
+const RaffleCard: React.FC<RaffleCardProps> = ({ round, data }) => {
   const { t } = useTranslation()
 
   return (
-    <Card ribbon={<CardRibbon variantColor="bronze" text={`Round ${round}`} ribbonPosition="left" />}>
+    <Card ribbon={<CardRibbon variantColor="gold" text={`Round ${round}`} ribbonPosition="left" />}>
       <CardBody p="24px">
         <Flex alignItems="center" justifyContent="center" flexDirection="column" mb="24px">
           <Flex mb="4px">
-            <RotatedLaurelLeftIcon color="bronze" width="32px" />
-            <RotatedLaurelRightIcon color="bronze" width="32px" />
+            <RotatedLaurelLeftIcon color="gold" width="32px" />
+            <RotatedLaurelRightIcon color="gold" width="32px" />
           </Flex>
           <Text color="primary" fontWeight="bold" textAlign="center">
-            Time Left:
+            Winner:
           </Text>
-          <Text color="primary" fontWeight="bold" textAlign="center">
-            {`${time}`}
+          <Text color="primary" fontSize="12px"  fontWeight="bold" textAlign="center">
+            {`${data.address}`}
           </Text>
         </Flex>
-        <Row mb="4px">
-          <Text fontSize="12px" color="textSubtle">
-            {t('Total Tickets')}
-          </Text>
-          <Text fontWeight="bold">{`${data.ticketCount}`}</Text>
-        </Row>
         <Row mb="4px">
           <Text fontSize="12px" color="textSubtle">
             {t('Total Amount')}

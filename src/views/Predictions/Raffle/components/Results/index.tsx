@@ -29,6 +29,7 @@ import Container from 'components/Layout/Container'
 import BigNumber from 'bignumber.js'
 import { result } from 'lodash'
 import RaffleCard from './RaffleCard'
+import RaffleCardWinner from './RaffleCardWinner'
 import UserRaffleRound from './UserRaffleRound'
 import DesktopResults from './DesktopResults'
 import MobileResults from './MobileResults'
@@ -43,7 +44,6 @@ const Results = () => {
   const hasMoreResults = useGetLeaderboardHasMoreResults()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  
 
   const handleClick = () => {
     dispatch(filterNextPageLeaderboard(currentSkip + LEADERBOARD_RESULTS_PER_PAGE))
@@ -53,8 +53,9 @@ const Results = () => {
   const [timeLeft, setTimeLeft] = useState(null)
   const [currentRound, setCurrentRound] = useState(null)
   const [users, setUsers] = useState([])
-  const [userTicketCount, setUserTicketCount] = useState(0);
-  
+  const [userTicketCount, setUserTicketCount] = useState(0)
+  const [winnerData, setWinnerData] = useState(null)
+
   useEffect(() => {
     const contract = getRaffleContract()
 
@@ -66,9 +67,9 @@ const Results = () => {
         setCurrentRound(round)
 
         const roundDuration = await contract.minRoundDuration()
-        const time = Number(round.startTimestamp)+Number(roundDuration)-Math.round(Date.now() / 1000);
-        if(time < 0) setTimeLeft('Waiting to calculate');
-        else setTimeLeft(time.toString());
+        const time = Number(round.startTimestamp) + Number(roundDuration) - Math.round(Date.now() / 1000)
+        if (time < 0) setTimeLeft('Waiting to calculate')
+        else setTimeLeft(time.toString())
 
         try {
           const api = await fetch(
@@ -88,23 +89,38 @@ const Results = () => {
     fetchData()
   }, [])
 
-  useEffect(()=> {
+  useEffect(() => {
     async function fetchData() {
       try {
         const api = await fetch(
           `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/userRoundTickets?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=${roundNo}&user=${account}`,
         )
         const data = await api.json()
-        if(data.result[0] && data.result[0].totalTicket)
-          setUserTicketCount(data.result[0].totalTicket)
+        if (data.result[0] && data.result[0].totalTicket) setUserTicketCount(data.result[0].totalTicket)
         return true
       } catch (err) {
         return false
       }
     }
 
-    if(account && roundNo > 0) fetchData();
-  }, [account, roundNo]);
+    if (account && roundNo > 0) fetchData()
+  }, [account, roundNo])
+
+  useEffect(() => {
+    const contract = getRaffleContract()
+
+    async function fetchData() {
+      try {
+        const round = await contract.rounds(roundNo - 1)
+        setWinnerData({amount:round.amount, address:round.winner});
+
+        return true
+      } catch {
+        return null
+      }
+    }
+    fetchData()
+  }, [roundNo])
 
   return (
     <Box>
@@ -114,7 +130,8 @@ const Results = () => {
           gridTemplateColumns={['1fr', null, null, null, null, 'repeat(3, 1fr)']}
         >
           {currentRound && <RaffleCard round={roundNo} time={timeLeft} data={currentRound} />}
-          {userTicketCount>0 && <UserRaffleRound round={roundNo} ticketCount={userTicketCount} />}
+          {userTicketCount > 0 && <UserRaffleRound round={roundNo} ticketCount={userTicketCount} />}
+          {winnerData && <RaffleCardWinner round={roundNo-1} data={winnerData} />}
         </Grid>
       </Container>
       <Container mb="24px">
