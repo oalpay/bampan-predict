@@ -21,7 +21,7 @@ import erc721CollctionAbi from 'config/abi/erc721collection.json'
 import RaffleAbi from 'config/abi/raffle.json'
 import { ChainLinkOracleContract, PredictionsContract } from './types'
 
-const getContract = (abi: any, address: string, signer?: ethers.Signer | ethers.providers.Provider) => {
+export const getContract = (abi: any, address: string, signer?: ethers.Signer | ethers.providers.Provider) => {
   const signerOrProvider = signer ?? simpleRpcProvider
   return new ethers.Contract(address, abi, signerOrProvider)
 }

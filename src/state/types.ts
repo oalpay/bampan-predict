@@ -11,6 +11,7 @@ import {
   TranslatableText,
   DeserializedFarmConfig,
 } from 'config/constants/types'
+import { RafflesState } from './raffle/types'
 
 export interface BigNumberToJson {
   type: 'BigNumber'
@@ -419,4 +420,5 @@ export type UserTicketsResponse = [ethers.BigNumber[], number[], boolean[]]
 export interface State {
   block: BlockState
   predictions: PredictionsState
+  raffles: RafflesState
 }

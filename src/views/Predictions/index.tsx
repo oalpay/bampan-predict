@@ -10,6 +10,7 @@ import { PredictionStatus } from 'state/types'
 import { useUserPredictionAcceptedRisk, useUserPredictionChartDisclaimerShow } from 'state/user/hooks'
 import PageLoader from 'components/Loader/PageLoader'
 import { PageMeta } from 'components/Layout/Page'
+import { fetchRaffles } from 'state/raffle'
 import usePollPredictions from './hooks/usePollPredictions'
 import Container from './components/Container'
 import CollectWinningsPopup from './components/CollectWinningsPopup'
@@ -55,6 +56,7 @@ const Predictions = () => {
     if (initialBlock > 0) {
       // Do not start initialization until the first block has been retrieved
       dispatch(initializePredictions(account))
+      dispatch(fetchRaffles())
     }
   }, [initialBlock, dispatch, account])
 

@@ -3,6 +3,7 @@ import { save, load } from 'redux-localstorage-simple'
 import { useDispatch } from 'react-redux'
 
 import predictionsReducer from './predictions'
+import rafflesReducer from './raffle'
 import blockReducer from './block'
 import { updateVersion } from './global/actions'
 import user from './user/reducer'
@@ -16,6 +17,7 @@ const store = configureStore({
   reducer: {
     block: blockReducer,
     predictions: predictionsReducer,
+    raffles: rafflesReducer,
     // Exchange
     user,
     transactions,
