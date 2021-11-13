@@ -117,11 +117,6 @@ const Results = () => {
 
   return (
     <Box>
-      {account && readyForCalculate && (
-        <Container mb="16px">
-          <ExecuteRaffleRoundModal handle={handleRaffleRoundCalculated} />
-        </Container>
-      )}
       <Container mb="16px">
         <Grid
           gridGap={['16px', null, null, null, null, '24px']}
@@ -130,6 +125,7 @@ const Results = () => {
           {currentRound && <RaffleCard round={roundNo} time={timeLeft} data={currentRound} />}
           {userTicketCount > 0 && <UserRaffleRound round={roundNo} ticketCount={userTicketCount} />}
           {winnerData && <RaffleCardWinner round={roundNo - 1} data={winnerData} />}
+          {account && readyForCalculate && <ExecuteRaffleRoundModal handle={handleRaffleRoundCalculated} />}
         </Grid>
       </Container>
       <Container mb="24px">

@@ -1,19 +1,6 @@
 import React, { useState } from 'react'
-import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
-import {
-  Card,
-  CardBody,
-  Text,
-  Flex,
-  HelpIcon,
-  Button,
-  Heading,
-  Skeleton,
-  useModal,
-  Box,
-  useTooltip,
-} from '@pancakeswap/uikit'
+import { Box, Button, Card, CardBody, Flex, Heading, HelpIcon, Text, useTooltip } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useRaffleContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
@@ -73,7 +60,7 @@ const BountyCard: React.FC<BountyCardProps> = ({ handle }) => {
       {tooltipVisible && tooltip}
       <StyledCard>
         <CardBody>
-          <Flex flexDirection="column">
+          <Flex flexDirection="column" height="100%">
             <Flex alignItems="center" mb="12px">
               <Text fontSize="16px" bold color="textSubtle" mr="4px">
                 {t('Raffle Starter')}
@@ -83,11 +70,9 @@ const BountyCard: React.FC<BountyCardProps> = ({ handle }) => {
               </Box>
             </Flex>
           </Flex>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Flex flexDirection="column" mr="12px">
-              <Heading>{t('Raffle round is ready for drawing!')}</Heading>
-            </Flex>
-            <Button onClick={handleExecuteRound} scale="sm" id="clickClaimVaultBounty">
+          <Flex flexDirection="column" justify-content="space-evenly" align-items="flex-end" mr="12px">
+            <Heading>{t('Raffle round is ready for drawing!')}</Heading>
+            <Button my="24px" onClick={handleExecuteRound} scale="sm" id="clickClaimVaultBounty">
               {t('Start the Raffle')}
             </Button>
           </Flex>
