@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getAddress } from 'utils/addressHelpers'
 import addresses from 'config/constants/contracts'
 import RaffleAbi from 'config/abi/raffle.json'
-import { BigNumber, ethers } from 'ethers'
 import { getContract } from 'utils/contractHelpers'
-import { multicallv2 } from 'utils/multicall'
-import { RaffleRoundData, RafflesData, RafflesState } from './types'
+import { ethers } from 'ethers'
+import { RaffleData, RaffleRoundData, RafflesState } from './types'
 
 const getRaffleAddress = () => {
   return getAddress(addresses.raffle)
@@ -15,40 +14,46 @@ const getRaffleContract = (signer?: ethers.Signer | ethers.providers.Provider) =
   return getContract(RaffleAbi, getRaffleAddress(), signer)
 }
 
-const getRafflesRoundData = async (epochs: number[]): Promise<RaffleRoundData[]> => {
-  const address = getRaffleAddress()
-  const rounds = epochs.map((epoch) => ({
-    address,
-    name: 'rounds',
-    params: [epoch],
-  }))
-  const response = await multicallv2(RaffleAbi, rounds)
-  const roundsResponse: RaffleRoundData[] = epochs.map((value, index) => ({
-    round: BigNumber.from(value),
-    amount: response[index].amount,
-    ticketCount: response[index].ticketCount,
-    startTimestamp: response[index].startTimestamp,
-    endTimestamp: response[index].endTimestamp,
-  }))
-  return roundsResponse
-}
-
-const getRafflesData = async (): Promise<RafflesData> => {
+const getRafflesRoundData = async (roundNo: number): Promise<RaffleRoundData> => {
   const contract = getRaffleContract()
-  const currentRound = await contract.currentRound()
+  const currentRound = await contract.rounds(roundNo)
   return {
-    currentRound,
+    amount: currentRound.amount,
+    round: roundNo,
+    ticketCount: currentRound.ticketCount,
+    startTimestamp: currentRound.startTimestamp,
+    endTimestamp: currentRound.endTimestamp,
   }
 }
 
-export const fetchRaffles = createAsyncThunk<RafflesData>('raffles/fetch', async () => {
+const getRaffleData = async (): Promise<RaffleData> => {
+  const contract = getRaffleContract()
+  const currentRound = await contract.currentRound()
+  const raffleDuration = await contract.minRoundDuration()
+  return {
+    currentRound,
+    raffleDuration,
+  }
+}
+/*
+const getUserTickets = async (): Promise<RaffleData> => {
+    
+}
+*/
+export const initializeRaffle = createAsyncThunk<RafflesState, string>('raffles/initialize', async () => {
   // Static values
-  const rafflesData = await getRafflesData()
-  return rafflesData
+  const raffleData = await getRaffleData()
+  const rounds = { [raffleData.currentRound]: await getRafflesRoundData(raffleData.currentRound) }
+
+  return {
+    raffleData,
+    rounds,
+  }
 })
 
 const initialState: RafflesState = {
-  isLoading: false,
+  raffleData: {},
+  rounds: {},
 }
 
 export const rafflesSlice = createSlice({
@@ -57,8 +62,9 @@ export const rafflesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     // Leaderboard filter
-    builder.addCase(fetchRaffles.fulfilled, (state, action) => {
-      state.rafflesData = action.payload
+    builder.addCase(initializeRaffle.fulfilled, (state, action) => {
+      state.rounds = action.payload.rounds
+      state.raffleData = action.payload.raffleData
     })
   },
 })

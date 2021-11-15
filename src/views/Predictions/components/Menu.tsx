@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Flex, HelpIcon, Button, PrizeIcon } from '@pancakeswap/uikit'
+import { useGetCurrentRaffle } from 'state/raffle/hooks'
 import FlexRow from './FlexRow'
 import { PricePairLabel, TimerLabel } from './Label'
 import PrevNextNav from './PrevNextNav'
 import HistoryButton from './HistoryButton'
+import RaffleCard from '../Raffle/components/Results/RaffleCard'
 
 const SetCol = styled.div`
   flex: none;
@@ -58,10 +60,12 @@ const ButtonWrapper = styled.div`
 `
 
 const Menu = () => {
+  const currentRaffle = useGetCurrentRaffle()
   return (
     <FlexRow alignItems="center" p="16px">
       <SetCol>
         <PricePairLabel />
+        {currentRaffle && <RaffleCard round={currentRaffle} />}
       </SetCol>
       <FlexRow justifyContent="center">
         <PrevNextNav />

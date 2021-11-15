@@ -51,6 +51,20 @@ export const formatRoundTime = (secondsBetweenBlocks: number) => {
   return minutesSeconds
 }
 
+export const formatRaffleTime = (secondsBetweenBlocks: number) => {
+  const { days, hours, minutes, seconds } = getTimePeriods(secondsBetweenBlocks)
+  const minutesSeconds = `${padTime(minutes)}:${padTime(seconds)}`
+
+  if (days > 0) {
+    return `${padTime(days)}Days ${padTime(hours)}:${minutesSeconds}`
+  }
+  if (hours > 0) {
+    return `${padTime(hours)}:${minutesSeconds}`
+  }
+
+  return minutesSeconds
+}
+
 export const getHasRoundFailed = (round: NodeRound, buffer: number) => {
   const closeTimestampMs = (round.closeTimestamp + buffer) * 1000
   const now = Date.now()

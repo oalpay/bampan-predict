@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 
 export interface RaffleRoundData {
-  round: BigNumber
+  round: number
   amount: BigNumber
   ticketCount: number
   startTimestamp: number
@@ -11,13 +11,11 @@ export interface RaffleRoundData {
 export interface RaffleRoundMap {
   [key: string]: RaffleRoundData
 }
-
-export interface RafflesData {
-  currentRound: number
+export interface RaffleData {
+  currentRound?: number
+  raffleDuration?: number
 }
-
 export interface RafflesState {
-  isLoading: boolean
-  rafflesData?: RafflesData
   rounds?: RaffleRoundMap
+  raffleData?: RaffleData
 }

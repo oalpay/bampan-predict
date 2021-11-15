@@ -1,6 +1,6 @@
 import UserMenu from 'components/Menu/UserMenu'
 import React from 'react'
-import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from './NavbarElements'
+import { Nav, NavLink, Bars, NavMenu, NavBtn } from './NavbarElements'
 
 const Navbar = () => {
   return (

@@ -9,7 +9,7 @@ import { useGetPredictionsStatus, useIsChartPaneOpen, useIsHistoryPaneOpen } fro
 import { setChartPaneState } from 'state/predictions'
 import { PredictionStatus } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
-import { useGetRaffle } from 'state/raffle/hooks'
+import { useGetCurrentRaffle } from 'state/raffle/hooks'
 import TradingView from './components/TradingView'
 import { ErrorNotification, PauseNotification } from './components/Notification'
 import History from './History'
@@ -127,7 +127,7 @@ const Desktop: React.FC = () => {
     dispatch(setChartPaneState(newChartPaneState))
   }
 
-  const raffle = useGetRaffle()
+  const raffle = useGetCurrentRaffle()
 
   useEffect(() => {
     const threshold = 100
