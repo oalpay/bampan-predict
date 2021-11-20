@@ -39,7 +39,7 @@ const Votes: React.FC<VotesProps> = ({ votes }) => {
   }
 
   return (
-    <Card>
+    <Card style={{ width: '40%' }} mr="10px">
       <CardHeader>
         <Flex alignItems="center" justifyContent="space-between">
           <Heading as="h3" scale="md">
