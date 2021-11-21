@@ -21,6 +21,7 @@ interface Vote {
   id: string
   voter: string
   proposal: string
+  tx: string
 }
 
 interface VotesProps {

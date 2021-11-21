@@ -10,6 +10,7 @@ interface Vote {
   id: string
   voter: string
   proposal: string
+  tx: string
 }
 
 interface VoteRowProps {
@@ -33,7 +34,7 @@ const VoteRow: React.FC<VoteRowProps> = ({ vote, isVoter }) => {
         </Flex>
       </AddressColumn>
       <ChoiceColumn>
-        <TextEllipsis title={vote.proposal}>{vote.proposal}</TextEllipsis>
+        <TextEllipsis title={vote.proposal.toString()}>{vote.proposal.toString()}</TextEllipsis>
       </ChoiceColumn>
     </Row>
   )

@@ -58,6 +58,8 @@ const Results: React.FC<VotesProps> = ({ votes }) => {
   const [isTxPending, setIsTxPending] = useState(false)
   // const results = calculateVoteResults(votes)
   const [myVote, setMyVote] = useState<State>({ label: '', address: '' })
+  const [voteResults, setVoteResults] = useState({})
+  const [totalVotes, setTotalVotes] = useState(1)
 
   const predictionsContract = usePredictionsContract()
   const { account } = useWeb3React()
@@ -97,15 +99,35 @@ const Results: React.FC<VotesProps> = ({ votes }) => {
     { label: 'MATIC / USD', address: '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada' },
   ]
 
-  const voteResults = {
-    '0xB8ce593E3C94Ad25Bc87D7e3e484C98A4A82335E': 5,
-    '0x0FCAa9c899EC5A91eBc3D5Dd869De833b06fB046': 3,
-    '0x0715A7794a1dc8e42615F059dD6e406A6594651A': 1,
-    '0x12162c3E810393dEC01362aBf156D7ecf6159528': 0,
-    '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada': 0,
-  }
-
-  const totalVotes = 9
+  useEffect(() => {
+    async function fetchData() {
+      if (predictionsContract) {
+        try {
+          const no = await predictionsContract.currentOracleVoteRound()
+          const roundNo = no.toString()
+          try {
+            const api = await fetch(
+              `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/oracleTotalVotes?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=${roundNo}`,
+            )
+            const data = await api.json()
+            const results = {}
+            let count = 0
+            for (let i = 0; i < data.result.length; i++) {
+              results[data.result[i].objectId.toString()] = data.result[i].count
+              count += data.result[i].count
+            }
+            setVoteResults(results)
+            setTotalVotes(count)
+          } catch (err) {
+            console.log(err)
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    }
+    fetchData()
+  }, [predictionsContract])
 
   /*
 const choices = [
@@ -174,72 +196,6 @@ const choices = [
   {label:"ZRX / USD", address:"0x6EA4d89474d9410939d429B786208c74853A5B47"}
 ]
 
-const voteResults = {
-  "0x443C5116CdF663Eb387e72C688D276e702135C87":5,
-  "0x72484B12719E23115761D5DA1646945632979bB6":3,
-  "0x882554df528115a743c4537828DA8D5B58e52544":1,
-  "0x3fd911749Fce21a38704B76FFaBcB6BeF2567F2E":0,
-  "0x03Bc6D9EFed65708D35fDaEfb25E87631a0a3437":0,
-  "0x062Df9C4efd2030e243ffCc398b652e8b8F95C6f":0,
-  "0x2346Ce62bd732c62618944E51cbFa09D985d86D2":0,
-  "0x327d9822e9932996f55b39F557AEC838313da8b7":0,
-  "0xC5c770ae2efDF0DBC2FB366fb3833dAc2A20BF2F":0,
-  "0x82a6c4AF830caa6c97bb504425f6A66165C2c26e":0,
-  "0xF5724884b6E99257cC003375e6b844bC776183f9":0,
-  "0x8803DD6705F0d38e79790B02A2C43594A0538D22":0,
-  "0xc907E116054Ad103354f2D350FD2514433D57F6f":0,
-  "0x2f2C605F28DE314bc579a7c0FDf85536529E9825":0,
-  "0xE0dC07D5ED74741CeeDA61284eE56a2A0f7A4Cc9":0,
-  "0xACA44ABb8B04D07D883202F99FA5E3c53ed57Fb5":0,
-  "0xc9ECF45956f576681bDc01F79602A79bC2667B0c":0,
-  "0x2A8758b7257102461BC958279054e372C2b1bDE6":0,
-  "0x4746DeC9e833A82EC7C2C1356372CcF2cfcD2F3D":0,
-  "0xD94427eDee70E4991b4b8DdCc848f2B58ED01C0b":0,
-  "0xbaf9327b6564454F4a3364C33eFeEf032b4b4444":0,
-  "0xacb51F1a83922632ca02B25a8164c10748001BdE":0,
-  "0xd6285F06203D938ab713Fa6A315e7d23247DDE95":0,
-  "0xDf3f72Be10d194b58B1BB56f2c4183e661cB2114":0,
-  "0xF9680D99D6C9589e2a93a78A04A279e509205945":0,
-  "0x73366Fe0AA0Ded304479862808e02506FE556a98":0,
-  "0x099a2540848573e94fb1Ca0Fa420b00acbBc845a":0,
-  "0x82d43B72573f902F960126a19581BcBbA5b014F5":0,
-  "0x6F8F9e75C0285AecE30ADFe1BCc1955f145d971A":0,
-  "0x84227A76a04289473057BEF706646199D7C58c34":0,
-  "0x10e5f3DFc81B3e5Ef4e648C4454D04e79E1E41E2":0,
-  "0x90711d545915f8e99a22BB1F86eb8C0403e3358F":0,
-  "0xd9FFdb71EbE7496cC440152d43986Aae0AB76665":0,
-  "0xBAaF11CeDA1d1Ca9Cf01748F8196653c9656a400":0,
-  "0xEB99F173cf7d9a6dC4D889C2Ad7103e8383b6Efa":0,
-  "0xA1CbF3Fe43BC3501e3Fc4b573e822c70e76A7512":0,
-  "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0":0,
-  "0x7d620D05c317A426903596432A5ca83375dC8d2A":0,
-  "0xa070427bF5bA5709f70e98b94Cb2F435a242C46C":0,
-  "0x74b3587A23eE786A43C8529c2e98D3C05a8fb1fB":0,
-  "0x93FfEE768F74208a7b9f2a4426f0F6BCbb1D09de":0,
-  "0x0E12b79A6E5c919F89246edEdb2d6413a8890a54":0,
-  "0x56D55D34EcC616e71ae998aCcba79F236ff2ff46":0,
-  "0x0f6914d8e7e1214CDb3A4C6fbf729b75C69DF608":0,
-  "0x5047CdCf17AA5a0bb77217497142657B27a1e228":0,
-  "0xbF90A5D9B6EE9019028dbFc2a9E50056d5252894":0,
-  "0x10C8264C0935b3B9870013e057f330Ff3e9C56dC":0,
-  "0x38611b09F8f2D520c14eA973765C225Bf57B9Eac":0,
-  "0x307cCF7cBD17b69A487b9C3dbe483931Cf3E1833":0,
-  "0x7C5D415B64312D38c56B54358449d0a4058339d2":0,
-  "0x33D9B1BAaDcF4b26ab6F8E83e9cb8a611B2B3956":0,
-  "0xdf0Fb4e4F928d2dCB76f438575fDD8682386e13C":0,
-  "0xfE4A8cc5b5B2366C1B58Bea3858e81843581b2F7":0,
-  "0x0A6513e40db6EB1b165753AD52E80663aeA50545":0,
-  "0xD78bc11ef3256e3CE9dC0DF0fa7be9E9afc07f95":0,
-  "0x0C466540B2ee1a31b441671eac0ca886e051E410":0,
-  "0x692AE5510cA9070095A496dbcFBCDA99D4024Cd9":0,
-  "0xBE6FB0AB6302B693368D0E9001fAF77ecc6571db":0,
-  "0x785ba89291f676b5386652eB12b30cF361020694":0,
-  "0x691e26AB58ff05800E028b0876A41B720b26FC65":0,
-  "0x9d3A43c111E7b2C6601705D9fcF7a70c95b1dc55":0,
-  "0xBC08c639e579a391C4228F20d0C29d0690092DF0":0,
-  "0x6EA4d89474d9410939d429B786208c74853A5B47":0
-}
-
 */
 
   const hasVoted = votes.some((vote) => {
@@ -268,11 +224,11 @@ const voteResults = {
     console.log(myVote)
     try {
       const oracleAddress = myVote.address.toString()
-      const tx = await callWithGasPrice(predictionsContract, 'voteForNewOracle', oracleAddress)
-      console.log(tx)
+      const tx = await predictionsContract.voteForNewOracle(oracleAddress)
+      //  const tx = await callWithGasPrice(predictionsContract, 'voteForNewOracle', oracleAddress)
+
       setIsTxPending(true)
-      const receipt = await tx.wait()
-      toastSuccess(receipt.transactionHash)
+      toastSuccess(t('Vote cast!'))
     } catch (err) {
       console.log(err)
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
@@ -296,10 +252,15 @@ const voteResults = {
       </CardHeader>
       <CardBody>
         {choices.map((choice, index) => {
-          const totalChoiceVote = voteResults[choice.address]
+          let totalChoiceVote = 0
+          if (voteResults[choice.address.toLowerCase()]) totalChoiceVote = voteResults[choice.address.toLowerCase()]
           const progress = (totalChoiceVote / totalVotes) * 100
           const hasVotedThisChoice = votes.some((v) => {
-            return account && v.voter.toLowerCase() === account.toLowerCase() && choice.label === v.proposal
+            return (
+              account &&
+              v.voter.toLowerCase() === account.toLowerCase() &&
+              choice.address.toLowerCase() === v.proposal.toLowerCase()
+            )
           })
           const handleChange = () => {
             setMyVote({
