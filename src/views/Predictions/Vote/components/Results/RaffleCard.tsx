@@ -1,15 +1,28 @@
 import React from 'react'
-import { Card, CardBody, CardRibbon, Flex, LaurelLeftIcon, LaurelRightIcon, Text } from '@pancakeswap/uikit'
+import {
+  Box,
+  Card,
+  CardBody,
+  CardRibbon,
+  Flex,
+  LaurelLeftIcon,
+  LaurelRightIcon,
+  Link,
+  Text,
+  SubMenu,
+  SubMenuItem,
+  useModal,
+} from '@pancakeswap/uikit'
 import styled from 'styled-components'
+import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
-import { RaffleRoundData } from 'state/raffle/types'
-import useCountdown from 'views/Predictions/hooks/useCountdown'
-import { formatRaffleTime } from 'views/Predictions/helpers'
-import { useGetRaffleData } from 'state/raffle/hooks'
-import { Row } from './styles'
+import WalletStatsModal from '../WalletStatsModal'
+import { NetWinningsRow, Row } from './styles'
 
 interface RaffleCardProps {
-  round: RaffleRoundData
+  round: number
+  data: any
+  time: string
 }
 
 const RotatedLaurelLeftIcon = styled(LaurelLeftIcon)`
@@ -20,14 +33,11 @@ const RotatedLaurelRightIcon = styled(LaurelRightIcon)`
   transform: rotate(-30deg);
 `
 
-const RaffleCard: React.FC<RaffleCardProps> = ({ round }) => {
+const RaffleCard: React.FC<RaffleCardProps> = ({ round, data, time }) => {
   const { t } = useTranslation()
-  const raffleData = useGetRaffleData()
-  const { secondsRemaining } = useCountdown(round.startTimestamp + raffleData.raffleDuration)
-  const countdown = formatRaffleTime(secondsRemaining)
 
   return (
-    <Card ribbon={<CardRibbon variantColor="bronze" text={`Round ${round.round}`} ribbonPosition="left" />}>
+    <Card ribbon={<CardRibbon variantColor="bronze" text={`Round ${round}`} ribbonPosition="left" />}>
       <CardBody p="24px">
         <Flex alignItems="center" justifyContent="center" flexDirection="column" mb="24px">
           <Flex mb="4px">
@@ -38,20 +48,20 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ round }) => {
             Time Left:
           </Text>
           <Text color="primary" fontWeight="bold" textAlign="center">
-            {`${countdown}`}
+            {`${time}`}
           </Text>
         </Flex>
         <Row mb="4px">
           <Text fontSize="12px" color="textSubtle">
             {t('Total Tickets')}
           </Text>
-          <Text fontWeight="bold">{`${round.ticketCount}`}</Text>
+          <Text fontWeight="bold">{`${data.ticketCount}`}</Text>
         </Row>
         <Row mb="4px">
           <Text fontSize="12px" color="textSubtle">
             {t('Total Amount')}
           </Text>
-          <Text fontWeight="bold">{`${round.amount}`}</Text>
+          <Text fontWeight="bold">{`${data.amount}`}</Text>
         </Row>
       </CardBody>
     </Card>

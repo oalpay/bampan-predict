@@ -22,7 +22,7 @@ const StyledPage = styled(Container)`
   }
 `
 
-export const PageMeta: React.FC<{ symbol?: string }> = ({ symbol }) => {
+export const PageMeta: React.FC<{ symbol?: string }> = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
 

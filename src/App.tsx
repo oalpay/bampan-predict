@@ -21,6 +21,7 @@ const Predictions = lazy(() => import('./views/Predictions'))
 const NotFound = lazy(() => import('./views/NotFound'))
 const PredictionsLeaderboard = lazy(() => import('./views/Predictions/Leaderboard'))
 const Raffle = lazy(() => import('./views/Predictions/Raffle'))
+const Vote = lazy(() => import('./views/Predictions/Vote'))
 
 // This config is required for number formatting
 BigNumber.config({
@@ -44,11 +45,17 @@ const App: React.FC = () => {
           <Route path="/" exact>
             <Predictions />
           </Route>
+          <Route path="/prediction" exact>
+            <Predictions />
+          </Route>
           <Route path="/predictions/leaderboard">
             <PredictionsLeaderboard />
           </Route>
           <Route path="/raffle">
             <Raffle />
+          </Route>
+          <Route path="/vote">
+            <Vote />
           </Route>
           {/* 404 */}
           <Route component={NotFound} />
