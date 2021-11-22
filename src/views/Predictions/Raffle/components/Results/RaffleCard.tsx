@@ -3,9 +3,8 @@ import { Card, CardBody, CardRibbon, Flex, LaurelLeftIcon, LaurelRightIcon, Text
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { RaffleRoundData } from 'state/raffle/types'
-import useCountdown from 'views/Predictions/hooks/useCountdown'
 import { formatRaffleTime } from 'views/Predictions/helpers'
-import { useGetRaffleData } from 'state/raffle/hooks'
+import { useRaffleCountdown } from 'state/raffle/hooks'
 import { Row } from './styles'
 
 interface RaffleCardProps {
@@ -22,8 +21,7 @@ const RotatedLaurelRightIcon = styled(LaurelRightIcon)`
 
 const RaffleCard: React.FC<RaffleCardProps> = ({ round }) => {
   const { t } = useTranslation()
-  const raffleData = useGetRaffleData()
-  const { secondsRemaining } = useCountdown(round.startTimestamp + raffleData.raffleDuration)
+  const { secondsRemaining } = useRaffleCountdown()
   const countdown = formatRaffleTime(secondsRemaining)
 
   return (

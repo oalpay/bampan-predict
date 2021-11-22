@@ -3,8 +3,8 @@ import { getAddress } from 'utils/addressHelpers'
 import addresses from 'config/constants/contracts'
 import RaffleAbi from 'config/abi/raffle.json'
 import { getContract } from 'utils/contractHelpers'
-import { ethers } from 'ethers'
-import { RaffleData, RaffleRoundData, RafflesState } from './types'
+import { BigNumber, ethers } from 'ethers'
+import { RaffleData, RafflePlayersMap, RaffleRoundData, RafflesPlayer, RafflesState } from './types'
 
 const getRaffleAddress = () => {
   return getAddress(addresses.raffle)
@@ -18,41 +18,68 @@ const getRafflesRoundData = async (roundNo: number): Promise<RaffleRoundData> =>
   const contract = getRaffleContract()
   const currentRound = await contract.rounds(roundNo)
   return {
-    amount: currentRound.amount,
+    amount: currentRound.amount.toNumber(),
     round: roundNo,
-    ticketCount: currentRound.ticketCount,
-    startTimestamp: currentRound.startTimestamp,
-    endTimestamp: currentRound.endTimestamp,
+    ticketCount: currentRound.ticketCount.toNumber(),
+    startTimestamp: currentRound.startTimestamp.toNumber(),
+    endTimestamp: currentRound.endTimestamp.toNumber(),
+    winner: currentRound.winner.toString(),
   }
 }
 
 const getRaffleData = async (): Promise<RaffleData> => {
   const contract = getRaffleContract()
-  const currentRound = await contract.currentRound()
-  const raffleDuration = await contract.minRoundDuration()
+  const currentRound: BigNumber = await contract.currentRound()
+  const raffleDuration: BigNumber = await contract.minRoundDuration()
   return {
-    currentRound,
-    raffleDuration,
+    currentRound: currentRound.toNumber(),
+    raffleDuration: raffleDuration.toNumber(),
   }
 }
-/*
-const getUserTickets = async (): Promise<RaffleData> => {
-    
-}
-*/
-export const initializeRaffle = createAsyncThunk<RafflesState, string>('raffles/initialize', async () => {
-  // Static values
-  const raffleData = await getRaffleData()
-  const rounds = { [raffleData.currentRound]: await getRafflesRoundData(raffleData.currentRound) }
 
-  return {
-    raffleData,
-    rounds,
-  }
-})
+const getRafflePlayers = async (round: number): Promise<RafflePlayersMap> => {
+  const api = await fetch(
+    `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/roundTickets?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=${round}`,
+  )
+  const data = await api.json()
+  const response: RafflePlayersMap = data.result.reduce(
+    (players, player) => ({
+      ...players,
+      [player.objectId]: { totalTicket: player.totalTicket, address: player.objectId },
+    }),
+    {},
+  )
+  return response
+}
+
+export const fetchCurrentRaffleRound = createAsyncThunk<{ raffle: RaffleData; round: RaffleRoundData }>(
+  'raffles/fetchCurrentRaffleRound',
+  async () => {
+    // Static values
+    const raffle = await getRaffleData()
+    const round = await getRafflesRoundData(raffle.currentRound)
+    return { raffle, round }
+  },
+)
+
+export const fetchRaffleRound = createAsyncThunk<RaffleRoundData, number>(
+  'raffles/fetchRaffleRound',
+  async (roundNo) => {
+    // Static values
+    const round = await getRafflesRoundData(roundNo)
+    return round
+  },
+)
+
+export const fetchPlayers = createAsyncThunk<{ round: number; players: RafflePlayersMap }, number>(
+  'raffles/fetchPlayers',
+  async (round) => {
+    const players = await getRafflePlayers(round)
+    return { round, players }
+  },
+)
 
 const initialState: RafflesState = {
-  raffleData: {},
   rounds: {},
 }
 
@@ -62,9 +89,15 @@ export const rafflesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     // Leaderboard filter
-    builder.addCase(initializeRaffle.fulfilled, (state, action) => {
-      state.rounds = action.payload.rounds
-      state.raffleData = action.payload.raffleData
+    builder.addCase(fetchCurrentRaffleRound.fulfilled, (state, { payload: { raffle, round } }) => {
+      state.raffleData = raffle
+      if (state.rounds[raffle.currentRound] === undefined) {
+        state.rounds[raffle.currentRound] = {}
+      }
+      state.rounds[raffle.currentRound].data = round
+    })
+    builder.addCase(fetchPlayers.fulfilled, (state, { payload: { players, round } }) => {
+      state.rounds[round].players = players
     })
   },
 })

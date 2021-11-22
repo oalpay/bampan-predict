@@ -10,7 +10,7 @@ import { PredictionStatus } from 'state/types'
 import { useUserPredictionAcceptedRisk, useUserPredictionChartDisclaimerShow } from 'state/user/hooks'
 import PageLoader from 'components/Loader/PageLoader'
 import { PageMeta } from 'components/Layout/Page'
-import { initializeRaffle } from 'state/raffle'
+import { fetchCurrentRaffleRound } from 'state/raffle'
 import usePollPredictions from './hooks/usePollPredictions'
 import Container from './components/Container'
 import CollectWinningsPopup from './components/CollectWinningsPopup'
@@ -20,6 +20,7 @@ import Mobile from './Mobile'
 import RiskDisclaimer from './components/RiskDisclaimer'
 import ChartDisclaimer from './components/ChartDisclaimer'
 import usePollOraclePrice from './hooks/usePollOraclePrice'
+import usePollRaffle from './hooks/usePollRaffle'
 
 const Predictions = () => {
   const { isDesktop } = useMatchBreakpoints()
@@ -56,12 +57,13 @@ const Predictions = () => {
     if (initialBlock > 0) {
       // Do not start initialization until the first block has been retrieved
       dispatch(initializePredictions(account))
-      dispatch(initializeRaffle(account))
+      dispatch(fetchCurrentRaffleRound())
     }
   }, [initialBlock, dispatch, account])
 
   usePollPredictions()
   usePollOraclePrice()
+  usePollRaffle()
 
   if (status === PredictionStatus.INITIAL) {
     return <PageLoader />
@@ -76,7 +78,7 @@ const Predictions = () => {
       <SwiperProvider>
         <Container>
           {isDesktop ? <Desktop /> : <Mobile />}
-          <CollectWinningsPopup />
+          {/* <CollectWinningsPopup /> */}
         </Container>
       </SwiperProvider>
     </>
