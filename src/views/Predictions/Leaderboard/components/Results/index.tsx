@@ -27,7 +27,7 @@ const Results = () => {
   const dispatch = useAppDispatch()
 
   const handleClick = () => {
-    dispatch(filterNextPageLeaderboard(currentSkip + LEADERBOARD_RESULTS_PER_PAGE))
+    // dispatch(filterNextPageLeaderboard(currentSkip + LEADERBOARD_RESULTS_PER_PAGE))
   }
 
   return (
@@ -42,7 +42,7 @@ const Results = () => {
           <RankingCard rank={3} user={third} />
         </Grid>
       </Container>
-      {isDesktop ? <DesktopResults results={rest} /> : <MobileResults results={rest} />}
+      {isDesktop ? <DesktopResults results={rest} /> : <DesktopResults results={rest} />}
       <Flex mb="40px" justifyContent="center">
         {hasMoreResults && (
           <Button

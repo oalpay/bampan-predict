@@ -31,7 +31,7 @@ const ConnectedWalletResult = () => {
       <Heading as="h2" scale="md" color="secondary" mb="16px">
         {t('My Rankings')}
       </Heading>
-      {isDesktop ? (
+      (
         <Card isActive>
           <Table>
             <thead>
@@ -44,16 +44,9 @@ const ConnectedWalletResult = () => {
                 <Th>{t('Rounds Played')}</Th>
               </tr>
             </thead>
-            <tbody>
-              <DesktopRow user={accountResult} />
-            </tbody>
           </Table>
         </Card>
-      ) : (
-        <Card isActive>
-          <MobileRow user={accountResult} />
-        </Card>
-      )}
+      )
     </Container>
   )
 }

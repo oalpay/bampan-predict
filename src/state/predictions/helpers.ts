@@ -13,6 +13,7 @@ import {
   RoundData,
   PredictionUser,
   HistoryFilter,
+  PredictionPlayer,
 } from 'state/types'
 import { multicallv2 } from 'utils/multicall'
 import { getPredictionsContract } from 'utils/contractHelpers'
@@ -27,6 +28,7 @@ import {
   RoundResponse,
   TotalWonMarketResponse,
   UserResponse,
+  PlayerResponse,
 } from './queries'
 import { ROUNDS_PER_PAGE } from './config'
 
@@ -89,6 +91,20 @@ export const transformBetResponse = (betResponse: BetResponse): Bet => {
   }
 
   return bet
+}
+
+export const transformPlayerResponse = (playerResponse: PlayerResponse): PredictionPlayer => {
+  console.log(`playerResponse:  ${playerResponse}`)
+
+  const { objectId, roundsPlayed, won, totalBet, totalAmountWon } = playerResponse
+
+  return {
+    objectId,
+    roundsPlayed: numberOrNull(roundsPlayed),
+    won: numberOrNull(won),
+    totalBet: BigInt(totalBet),
+    totalAmountWon: BigInt(totalAmountWon),
+  }
 }
 
 export const transformUserResponse = (userResponse: UserResponse): PredictionUser => {
@@ -325,6 +341,16 @@ export const getPredictionUsers = async (options: GetPredictionUsersOptions = {}
     { first, skip, where, orderBy, orderDir },
   )
   return response.users
+}
+
+export const getPredictionPlayers = async (): Promise<PlayerResponse[]> => {
+  // TODO add error handling
+  const response = await fetch(
+    'https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/leaderboard?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp',
+  ).then((res) => res.json())
+
+  console.log(`fetched players: " + ${response.result}`)
+  return response.result
 }
 
 export const getPredictionUser = async (account: string): Promise<UserResponse> => {

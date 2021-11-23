@@ -1,12 +1,12 @@
 import React from 'react'
 import { Card, Table, Th } from '@pancakeswap/uikit'
-import { PredictionUser } from 'state/types'
+import { PredictionPlayer, PredictionUser } from 'state/types'
 import Container from 'components/Layout/Container'
 import { useTranslation } from 'contexts/Localization'
 import DesktopRow from './DesktopRow'
 
 interface DesktopResultsProps {
-  results: PredictionUser[]
+  results: PredictionPlayer[]
 }
 
 const DesktopResults: React.FC<DesktopResultsProps> = ({ results }) => {
@@ -28,7 +28,7 @@ const DesktopResults: React.FC<DesktopResultsProps> = ({ results }) => {
           </thead>
           <tbody>
             {results.map((result, index) => (
-              <DesktopRow key={result.id} rank={index + 4} user={result} />
+              <DesktopRow key={result.objectId} rank={index + 4} user={result} />
             ))}
           </tbody>
         </Table>

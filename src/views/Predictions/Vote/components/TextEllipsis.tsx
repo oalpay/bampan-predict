@@ -5,6 +5,7 @@ const TextEllipsis = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 220px;
 `
 
 export default TextEllipsis

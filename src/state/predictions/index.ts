@@ -17,6 +17,7 @@ import {
   PredictionUser,
   LeaderboardFilter,
   State,
+  PredictionPlayer,
 } from 'state/types'
 import { getPredictionsContract } from 'utils/contractHelpers'
 import {
@@ -44,7 +45,10 @@ import {
   transformUserResponse,
   LEADERBOARD_RESULTS_PER_PAGE,
   getPredictionUser,
+  transformPlayerResponse,
+  getPredictionPlayers,
 } from './helpers'
+import { PlayerResponse } from './queries'
 
 const initialState: PredictionsState = {
   status: PredictionStatus.INITIAL,
@@ -312,6 +316,21 @@ export const filterLeaderboard = createAsyncThunk<{ results: PredictionUser[] },
   },
 )
 
+export const fetchPredictionLeaderboard = createAsyncThunk<{ results: PredictionPlayer[] }>(
+    'predictions/filterLeaderboard',
+    async () => {
+  const usersResponse = await getPredictionPlayers()
+
+  return { results: usersResponse.map(transformPlayerResponse)
+        .sort((a: PredictionPlayer, b: PredictionPlayer) => {
+          if(a.totalAmountWon > b.totalAmountWon)
+            return -1
+
+          return 1
+        })
+  }
+})
+
 export const fetchAddressResult = createAsyncThunk<
   { account: string; data: PredictionUser },
   string,
@@ -332,11 +351,7 @@ export const filterNextPageLeaderboard = createAsyncThunk<
   { state: State }
 >('predictions/filterNextPageLeaderboard', async (skip, { getState }) => {
   const state = getState()
-  const usersResponse = await getPredictionUsers({
-    skip,
-    orderBy: state.predictions.leaderboard.filters.orderBy,
-    where: { totalBets_gte: LEADERBOARD_MIN_ROUNDS_PLAYED, [`${state.predictions.leaderboard.filters.orderBy}_gt`]: 0 },
-  })
+  const usersResponse = await getPredictionUsers()
 
   return { results: usersResponse.map(transformUserResponse), skip }
 })
@@ -383,13 +398,13 @@ export const predictionsSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Leaderboard filter
-    builder.addCase(filterLeaderboard.pending, (state) => {
+    builder.addCase(fetchPredictionLeaderboard.pending, (state) => {
       // Only mark as loading if we come from IDLE. This allows initialization.
       if (state.leaderboard.loadingState === LeaderboardLoadingState.IDLE) {
         state.leaderboard.loadingState = LeaderboardLoadingState.LOADING
       }
     })
-    builder.addCase(filterLeaderboard.fulfilled, (state, action) => {
+    builder.addCase(fetchPredictionLeaderboard.fulfilled, (state, action) => {
       const { results } = action.payload
 
       state.leaderboard.loadingState = LeaderboardLoadingState.IDLE
@@ -405,7 +420,7 @@ export const predictionsSlice = createSlice({
         ...results.reduce((accum, result) => {
           return {
             ...accum,
-            [result.id]: result,
+            [result.objectId]: result,
           }
         }, {}),
       }
@@ -426,20 +441,20 @@ export const predictionsSlice = createSlice({
     })
 
     // Leaderboard next page
-    builder.addCase(filterNextPageLeaderboard.pending, (state) => {
-      state.leaderboard.loadingState = LeaderboardLoadingState.LOADING
-    })
-    builder.addCase(filterNextPageLeaderboard.fulfilled, (state, action) => {
-      const { results, skip } = action.payload
-
-      state.leaderboard.loadingState = LeaderboardLoadingState.IDLE
-      state.leaderboard.results = [...state.leaderboard.results, ...results]
-      state.leaderboard.skip = skip
-
-      if (results.length < LEADERBOARD_RESULTS_PER_PAGE) {
-        state.leaderboard.hasMoreResults = false
-      }
-    })
+    // builder.addCase(filterNextPageLeaderboard.pending, (state) => {
+    //   state.leaderboard.loadingState = LeaderboardLoadingState.LOADING
+    // })
+    // builder.addCase(filterNextPageLeaderboard.fulfilled, (state, action) => {
+    //   const { results, skip } = action.payload
+    //
+    //   state.leaderboard.loadingState = LeaderboardLoadingState.IDLE
+    //   state.leaderboard.results = [...state.leaderboard.results, ...results]
+    //   state.leaderboard.skip = skip
+    //
+    //   if (results.length < LEADERBOARD_RESULTS_PER_PAGE) {
+    //     state.leaderboard.hasMoreResults = false
+    //   }
+    // })
 
     // Claimable statuses
     builder.addCase(fetchClaimableStatuses.fulfilled, (state, action) => {

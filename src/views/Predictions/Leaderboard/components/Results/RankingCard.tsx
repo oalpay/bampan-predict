@@ -13,16 +13,17 @@ import {
   SubMenuItem,
   useModal,
 } from '@pancakeswap/uikit'
-import { PredictionUser } from 'state/types'
+import { PredictionPlayer, PredictionUser } from 'state/types'
 import styled from 'styled-components'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import WalletStatsModal from '../WalletStatsModal'
 import { NetWinningsRow, Row } from './styles'
+import TextEllipsis from "../../../Vote/components/TextEllipsis";
 
 interface RankingCardProps {
   rank: 1 | 2 | 3
-  user: PredictionUser
+  user: PredictionPlayer
 }
 
 const RotatedLaurelLeftIcon = styled(LaurelLeftIcon)`
@@ -48,31 +49,26 @@ const getRankingColor = (rank: number) => {
 const RankingCard: React.FC<RankingCardProps> = ({ rank, user }) => {
   const { t } = useTranslation()
   const rankColor = getRankingColor(rank)
-  const [onPresentWalletStatsModal] = useModal(<WalletStatsModal account={user.id} />)
 
   return (
     <Card ribbon={<CardRibbon variantColor={rankColor} text={`#${rank}`} ribbonPosition="left" />}>
       <CardBody p="24px">
-        <Flex alignItems="center" justifyContent="center" flexDirection="column" mb="24px">
+        <Flex alignItems="center" justifyContent="center" flexDirection="column" mb="8px">
           <SubMenu
             component={
               <>
-                <Flex mb="4px">
-                  <RotatedLaurelLeftIcon color={rankColor} width="32px" />
-                  <Box width={['40px', null, null, '64px']} height={['40px', null, null, '64px']}>
-                    avatar
+                <Flex>
+                  <Box mb="46px" width={['40px', null, null, '64px']} height={['40px', null, null, '64px']}>
+                    <TextEllipsis width='220px' title={user.objectId}>${user.objectId}</TextEllipsis>
                   </Box>
+                  <RotatedLaurelLeftIcon color={rankColor} width="32px" />
                   <RotatedLaurelRightIcon color={rankColor} width="32px" />
                 </Flex>
-                <Text color="primary" fontWeight="bold" textAlign="center">
-                  avatar
-                </Text>
               </>
             }
             options={{ placement: 'bottom' }}
           >
-            <SubMenuItem onClick={onPresentWalletStatsModal}>{t('View Stats')}</SubMenuItem>
-            <SubMenuItem as={Link} href={getBscScanLink(user.id, 'address')} bold={false} color="text" external>
+            <SubMenuItem as={Link} bold={false} color="text" external>
               {t('View on BscScan')}
             </SubMenuItem>
           </SubMenu>
@@ -82,15 +78,15 @@ const RankingCard: React.FC<RankingCardProps> = ({ rank, user }) => {
             {t('Win Rate')}
           </Text>
           <Text fontWeight="bold">
-            {`${user.winRate.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`}
+            {`${(100 * user.won / user.roundsPlayed).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`}
           </Text>
         </Row>
-        <NetWinningsRow amount={user.netBNB} />
+        <NetWinningsRow amount={Number((user.totalAmountWon))} />
         <Row>
           <Text fontSize="12px" color="textSubtle">
             {t('Rounds Won')}
           </Text>
-          <Text fontWeight="bold">{`${user.totalBetsClaimed.toLocaleString()}/${user.totalBets.toLocaleString()}`}</Text>
+          <Text fontWeight="bold">{`${user.won}`}</Text>
         </Row>
       </CardBody>
     </Card>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Td, Text } from '@pancakeswap/uikit'
-import { PredictionUser } from 'state/types'
+import { PredictionPlayer, PredictionUser } from 'state/types'
 import ResultAvatar from './ResultAvatar'
 import { NetWinnings } from './styles'
 
 interface DesktopRowProps {
   rank?: number
-  user: PredictionUser
+  user: PredictionPlayer
 }
 
 const DesktopRow: React.FC<DesktopRowProps> = ({ rank, user, ...props }) => (
@@ -23,21 +23,18 @@ const DesktopRow: React.FC<DesktopRowProps> = ({ rank, user, ...props }) => (
     </Td>
     <Td>
       <NetWinnings
-        amount={user.netBNB}
-        textPrefix={user.netBNB > 0 ? '+' : ''}
-        textColor={user.netBNB > 0 ? 'success' : 'failure'}
+        amount={Number(user.totalAmountWon)}
+        textPrefix={user.totalAmountWon > 0 ? '+' : ''}
+        textColor={user.totalAmountWon > 0 ? 'success' : 'failure'}
       />
     </Td>
     <Td textAlign="center">
-      {`${user.winRate.toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      })}%`}
+      {`${(100 * user.won / user.roundsPlayed).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`}
     </Td>
     <Td textAlign="center">
-      <strong>{user.totalBetsClaimed.toLocaleString()}</strong>
+      <strong>{user.won.toLocaleString()}</strong>
     </Td>
-    <Td textAlign="center">{user.totalBets.toLocaleString()}</Td>
+    <Td textAlign="center">{user.roundsPlayed.toLocaleString()}</Td>
   </tr>
 )
 

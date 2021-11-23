@@ -2,12 +2,13 @@ import React from 'react'
 import { Box, Flex, FlexProps, Link, SubMenu, SubMenuItem, useModal, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { getBscScanLink } from 'utils'
-import { PredictionUser } from 'state/types'
+import {PredictionPlayer, PredictionUser} from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 import WalletStatsModal from '../WalletStatsModal'
+import TextEllipsis from "../../../Vote/components/TextEllipsis";
 
 interface ResultAvatarProps extends FlexProps {
-  user: PredictionUser
+  user: PredictionPlayer
 }
 
 const AvatarWrapper = styled(Box)`
@@ -17,7 +18,7 @@ const AvatarWrapper = styled(Box)`
   ${({ theme }) => theme.mediaQueries.lg} {
     order: 1;
     margin-left: 0;
-    margin-right: 8px;
+    margin-right: 4px;
   }
 `
 
@@ -31,29 +32,24 @@ const UsernameWrapper = styled(Box)`
 
 const ResultAvatar: React.FC<ResultAvatarProps> = ({ user, ...props }) => {
   const { t } = useTranslation()
-  const [onPresentWalletStatsModal] = useModal(<WalletStatsModal account={user.id} />)
+  const [onPresentWalletStatsModal] = useModal(<WalletStatsModal account={user.objectId} />)
 
   return (
     <SubMenu
       component={
         <Flex alignItems="center" {...props}>
-          <UsernameWrapper>
-            <Text color="primary" fontWeight="bold">
-              osman
-            </Text>{' '}
-          </UsernameWrapper>
-          <AvatarWrapper
-            width={['32px', null, null, null, null, '40px']}
-            height={['32px', null, null, null, null, '40px']}
+          <UsernameWrapper
+            width={['240px', null, null, null, null, '40px']}
+            height={['32px', null, null, null, null, '26px']}
           >
-            osman
-          </AvatarWrapper>
+            <TextEllipsis width='220px' title={user.objectId}>${user.objectId}</TextEllipsis>
+          </UsernameWrapper>
         </Flex>
       }
       options={{ placement: 'bottom-start' }}
     >
       <SubMenuItem onClick={onPresentWalletStatsModal}>{t('View Stats')}</SubMenuItem>
-      <SubMenuItem as={Link} href={getBscScanLink(user.id, 'address')} bold={false} color="text" external>
+      <SubMenuItem as={Link} href={getBscScanLink(user.objectId, 'address')} bold={false} color="text" external>
         {t('View on BscScan')}
       </SubMenuItem>
     </SubMenu>

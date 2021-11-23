@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text } from '@pancakeswap/uikit'
-import { PredictionUser } from 'state/types'
+import {PredictionPlayer, PredictionUser} from 'state/types'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { NetWinningsRow, Row } from './styles'
@@ -8,7 +8,7 @@ import ResultAvatar from './ResultAvatar'
 
 interface MobileRowProps {
   rank?: number
-  user: PredictionUser
+  user: PredictionPlayer
 }
 
 const StyledMobileRow = styled(Box)`
@@ -33,16 +33,12 @@ const MobileRow: React.FC<MobileRowProps> = ({ rank, user }) => {
         <Text fontSize="12px" color="textSubtle">
           {t('Win Rate')}
         </Text>
-        <Text fontWeight="bold">
-          {`${user.winRate.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`}
-        </Text>
       </Row>
-      <NetWinningsRow amount={user.netBNB} />
+      <NetWinningsRow amount={user.won} />
       <Row>
         <Text fontSize="12px" color="textSubtle">
           {t('Rounds Won')}
         </Text>
-        <Text fontWeight="bold">{`${user.totalBetsClaimed.toLocaleString()}/${user.totalBets.toLocaleString()}`}</Text>
       </Row>
     </StyledMobileRow>
   )

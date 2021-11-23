@@ -274,6 +274,13 @@ export interface Bet {
   user?: PredictionUser
   round?: Round
 }
+export interface PredictionPlayer {
+  objectId: string
+  roundsPlayed: number
+  won: number
+  totalBet: bigint
+  totalAmountWon: bigint
+}
 
 export interface PredictionUser {
   id: string
@@ -400,7 +407,7 @@ export interface PredictionsState {
     addressResults: {
       [key: string]: PredictionUser
     }
-    results: PredictionUser[]
+    results: PredictionPlayer[]
   }
 }
 

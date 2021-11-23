@@ -1,3 +1,11 @@
+export interface PlayerResponse {
+  objectId: string
+  roundsPlayed: string
+  won: string
+  totalBet: string
+  totalAmountWon: string
+}
+
 export interface UserResponse {
   id: string
   createdAt: string
