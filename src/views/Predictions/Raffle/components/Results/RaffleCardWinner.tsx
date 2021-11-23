@@ -1,28 +1,12 @@
 import React from 'react'
-import {
-  Box,
-  Card,
-  CardBody,
-  CardRibbon,
-  Flex,
-  LaurelLeftIcon,
-  LaurelRightIcon,
-  Link,
-  Text,
-  SubMenu,
-  SubMenuItem,
-  useModal,
-} from '@pancakeswap/uikit'
-import { PredictionUser } from 'state/types'
+import { Card, CardBody, CardRibbon, Flex, LaurelLeftIcon, LaurelRightIcon, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
-import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
-import WalletStatsModal from '../WalletStatsModal'
-import { NetWinningsRow, Row } from './styles'
+import { RaffleRoundData } from 'state/raffle/types'
+import { Row } from './styles'
 
 interface RaffleCardProps {
-  round: number
-  data: any
+  round: RaffleRoundData
 }
 
 const RotatedLaurelLeftIcon = styled(LaurelLeftIcon)`
@@ -33,7 +17,7 @@ const RotatedLaurelRightIcon = styled(LaurelRightIcon)`
   transform: rotate(-30deg);
 `
 
-const RaffleCard: React.FC<RaffleCardProps> = ({ round, data }) => {
+const RaffleCard: React.FC<RaffleCardProps> = ({ round }) => {
   const { t } = useTranslation()
 
   return (
@@ -48,14 +32,14 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ round, data }) => {
             Winner:
           </Text>
           <Text color="primary" fontSize="12px" fontWeight="bold" textAlign="center">
-            {`${data.address}`}
+            {`${round.winner}`}
           </Text>
         </Flex>
         <Row mb="4px">
           <Text fontSize="12px" color="textSubtle">
             {t('Total Amount')}
           </Text>
-          <Text fontWeight="bold">{`${data.amount}`}</Text>
+          <Text fontWeight="bold">{`${round.amount}`}</Text>
         </Row>
       </CardBody>
     </Card>

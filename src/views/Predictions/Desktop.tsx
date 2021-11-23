@@ -127,8 +127,6 @@ const Desktop: React.FC = () => {
     dispatch(setChartPaneState(newChartPaneState))
   }
 
-  const raffle = useGetCurrentRaffle()
-
   useEffect(() => {
     const threshold = 100
     const handleDrag = debounce(() => {

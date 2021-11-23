@@ -6,6 +6,8 @@ import { ROUND_BUFFER } from 'state/predictions/config'
 import { formatBigNumberToFixed } from 'utils/formatBalance'
 import { useGetCurrentRoundLockTimestamp, useGetLastOraclePrice } from 'state/predictions/hooks'
 import { useTranslation } from 'contexts/Localization'
+import { useGetCurrentRaffle, useRaffleCountdown } from 'state/raffle/hooks'
+import { ImTicket } from 'react-icons/im'
 import { formatRoundTime } from '../helpers'
 import useCountdown from '../hooks/useCountdown'
 
@@ -114,6 +116,27 @@ export const PricePairLabel: React.FC = () => {
           FAKE/USD
         </Title>
         <Price fontSize="12px">{`$${countUp}`}</Price>
+      </Label>
+    </Box>
+  )
+}
+
+const RaffleIcon = styled(ImTicket)`
+  color: #e7974d;
+`
+export const RaffleLabel: React.FC = () => {
+  const currentRound = useGetCurrentRaffle()
+
+  return (
+    <Box pl="24px" position="relative" display="inline-block">
+      <Token left={0}>
+        <RaffleIcon />
+      </Token>
+      <Label dir="left">
+        <Title bold textTransform="uppercase">
+          Raffle
+        </Title>
+        <Price fontSize="12px">{`$${currentRound.amount}`}</Price>
       </Label>
     </Box>
   )
