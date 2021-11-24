@@ -19,7 +19,7 @@ import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import WalletStatsModal from '../WalletStatsModal'
 import { NetWinningsRow, Row } from './styles'
-import TextEllipsis from "../../../Vote/components/TextEllipsis";
+import TextEllipsis from '../../../Vote/components/TextEllipsis'
 
 interface RankingCardProps {
   rank: 1 | 2 | 3
@@ -59,7 +59,9 @@ const RankingCard: React.FC<RankingCardProps> = ({ rank, user }) => {
               <>
                 <Flex>
                   <Box mb="46px" width={['40px', null, null, '64px']} height={['40px', null, null, '64px']}>
-                    <TextEllipsis width='220px' title={user.objectId}>${user.objectId}</TextEllipsis>
+                    <TextEllipsis width="220px" title={user.objectId}>
+                      ${user.objectId}
+                    </TextEllipsis>
                   </Box>
                   <RotatedLaurelLeftIcon color={rankColor} width="32px" />
                   <RotatedLaurelRightIcon color={rankColor} width="32px" />
@@ -78,10 +80,13 @@ const RankingCard: React.FC<RankingCardProps> = ({ rank, user }) => {
             {t('Win Rate')}
           </Text>
           <Text fontWeight="bold">
-            {`${(100 * user.won / user.roundsPlayed).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`}
+            {`${((100 * user.won) / user.roundsPlayed).toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            })}%`}
           </Text>
         </Row>
-        <NetWinningsRow amount={Number((user.totalAmountWon))} />
+        <NetWinningsRow amount={Number(user.totalAmountWon)} />
         <Row>
           <Text fontSize="12px" color="textSubtle">
             {t('Rounds Won')}

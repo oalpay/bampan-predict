@@ -2,10 +2,10 @@ import React from 'react'
 import { Box, Flex, FlexProps, Link, SubMenu, SubMenuItem, useModal, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { getBscScanLink } from 'utils'
-import {PredictionPlayer, PredictionUser} from 'state/types'
+import { PredictionPlayer, PredictionUser } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 import WalletStatsModal from '../WalletStatsModal'
-import TextEllipsis from "../../../Vote/components/TextEllipsis";
+import TextEllipsis from '../../../Vote/components/TextEllipsis'
 
 interface ResultAvatarProps extends FlexProps {
   user: PredictionPlayer
@@ -42,7 +42,9 @@ const ResultAvatar: React.FC<ResultAvatarProps> = ({ user, ...props }) => {
             width={['240px', null, null, null, null, '40px']}
             height={['32px', null, null, null, null, '26px']}
           >
-            <TextEllipsis width='220px' title={user.objectId}>${user.objectId}</TextEllipsis>
+            <TextEllipsis width="220px" title={user.objectId}>
+              ${user.objectId}
+            </TextEllipsis>
           </UsernameWrapper>
         </Flex>
       }

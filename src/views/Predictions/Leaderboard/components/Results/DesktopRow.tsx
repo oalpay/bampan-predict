@@ -29,7 +29,10 @@ const DesktopRow: React.FC<DesktopRowProps> = ({ rank, user, ...props }) => (
       />
     </Td>
     <Td textAlign="center">
-      {`${(100 * user.won / user.roundsPlayed).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`}
+      {`${((100 * user.won) / user.roundsPlayed).toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      })}%`}
     </Td>
     <Td textAlign="center">
       <strong>{user.won.toLocaleString()}</strong>

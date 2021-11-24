@@ -136,7 +136,7 @@ export const RaffleLabel: React.FC = () => {
         <Title bold textTransform="uppercase">
           Raffle
         </Title>
-        <Price fontSize="12px">{`$${currentRound.amount}`}</Price>
+        <Price fontSize="12px">{currentRound && `$${currentRound.amount}`}</Price>
       </Label>
     </Box>
   )

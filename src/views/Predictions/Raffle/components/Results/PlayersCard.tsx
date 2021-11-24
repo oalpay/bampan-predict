@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
-import { Card, Table, Td, Text, Th } from '@pancakeswap/uikit'
+import { Card, Table, Td, Text, Th, LinkExternal, Flex } from '@pancakeswap/uikit'
+import truncateHash from 'utils/truncateHash'
+import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import { RaffleRoundData, RafflesPlayer } from 'state/raffle/types'
 import { useGetRafflePlayers } from 'state/raffle/hooks'
@@ -36,7 +38,13 @@ const PlayersCard: React.FC<PlayersProps> = ({ round }) => {
                 <Td>
                   <Text textAlign="center" fontWeight="bold" color="secondary">{`#${i + 1}`}</Text>
                 </Td>
-                <Td textAlign="center">{user.address}</Td>
+                <Td textAlign="center">
+                  <Flex alignItems="center">
+                    <LinkExternal href={getBscScanLink(user.address, 'address')}>
+                      {truncateHash(user.address)}
+                    </LinkExternal>
+                  </Flex>
+                </Td>
                 <Td textAlign="center">{user.totalTicket}</Td>
               </tr>
             )

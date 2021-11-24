@@ -317,19 +317,19 @@ export const filterLeaderboard = createAsyncThunk<{ results: PredictionUser[] },
 )
 
 export const fetchPredictionLeaderboard = createAsyncThunk<{ results: PredictionPlayer[] }>(
-    'predictions/filterLeaderboard',
-    async () => {
-  const usersResponse = await getPredictionPlayers()
+  'predictions/filterLeaderboard',
+  async () => {
+    const usersResponse = await getPredictionPlayers()
 
-  return { results: usersResponse.map(transformPlayerResponse)
-        .sort((a: PredictionPlayer, b: PredictionPlayer) => {
-          if(a.totalAmountWon > b.totalAmountWon)
-            return -1
+    return {
+      results: usersResponse.map(transformPlayerResponse).sort((a: PredictionPlayer, b: PredictionPlayer) => {
+        if (a.totalAmountWon > b.totalAmountWon) return -1
 
-          return 1
-        })
-  }
-})
+        return 1
+      }),
+    }
+  },
+)
 
 export const fetchAddressResult = createAsyncThunk<
   { account: string; data: PredictionUser },

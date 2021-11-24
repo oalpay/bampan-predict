@@ -32,20 +32,20 @@ const ConnectedWalletResult = () => {
         {t('My Rankings')}
       </Heading>
       (
-        <Card isActive>
-          <Table>
-            <thead>
-              <tr>
-                <Th width="60px">&nbsp;</Th>
-                <Th textAlign="left">&nbsp;</Th>
-                <Th textAlign="right">{t('Net Winnings (BNB)')}</Th>
-                <Th textAlign="center">{t('Win Rate')}</Th>
-                <Th>{t('Rounds Won')}</Th>
-                <Th>{t('Rounds Played')}</Th>
-              </tr>
-            </thead>
-          </Table>
-        </Card>
+      <Card isActive>
+        <Table>
+          <thead>
+            <tr>
+              <Th width="60px">&nbsp;</Th>
+              <Th textAlign="left">&nbsp;</Th>
+              <Th textAlign="right">{t('Net Winnings (BNB)')}</Th>
+              <Th textAlign="center">{t('Win Rate')}</Th>
+              <Th>{t('Rounds Won')}</Th>
+              <Th>{t('Rounds Played')}</Th>
+            </tr>
+          </thead>
+        </Table>
+      </Card>
       )
     </Container>
   )

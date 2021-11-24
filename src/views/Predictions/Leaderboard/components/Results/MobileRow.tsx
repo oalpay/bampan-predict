@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text } from '@pancakeswap/uikit'
-import {PredictionPlayer, PredictionUser} from 'state/types'
+import { PredictionPlayer, PredictionUser } from 'state/types'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { NetWinningsRow, Row } from './styles'
