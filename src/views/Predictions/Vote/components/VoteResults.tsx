@@ -60,6 +60,7 @@ const Results: React.FC<VotesProps> = ({ votes }) => {
   const [myVote, setMyVote] = useState<State>({ label: '', address: '' })
   const [voteResults, setVoteResults] = useState({})
   const [totalVotes, setTotalVotes] = useState(1)
+  const [currentRound, setCurrentRound] = useState()
 
   const predictionsContract = usePredictionsContract()
   const { account } = useWeb3React()
@@ -105,6 +106,7 @@ const Results: React.FC<VotesProps> = ({ votes }) => {
         try {
           const no = await predictionsContract.currentOracleVoteRound()
           const roundNo = no.toString()
+          setCurrentRound(roundNo)
           try {
             const api = await fetch(
               `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/oracleTotalVotes?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=${roundNo}`,
@@ -127,7 +129,7 @@ const Results: React.FC<VotesProps> = ({ votes }) => {
       }
     }
     fetchData()
-  }, [predictionsContract])
+  }, [predictionsContract, currentRound])
 
   /*
 const choices = [
@@ -204,7 +206,8 @@ const choices = [
 
   const handleSuccess = async () => {
     toastSuccess(t('Vote cast!'))
-    // dispatch(fetchVotes({ proposalId: proposal.id, block: Number(proposal.snapshot) }))
+    const no = await predictionsContract.currentOracleVoteRound()
+    setCurrentRound(no.toString())
   }
 
   const handleBack = async () => {
@@ -229,6 +232,7 @@ const choices = [
 
       setIsTxPending(true)
       toastSuccess(t('Vote cast!'))
+      onDismiss()
     } catch (err) {
       console.log(err)
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
@@ -247,7 +251,7 @@ const choices = [
     <Card style={{ width: '60%' }} ml="10px" mr="10px">
       <CardHeader>
         <Heading as="h3" scale="md">
-          {t('Current Results')}
+          Round {currentRound} Results
         </Heading>
       </CardHeader>
       <CardBody>

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
 import { usePredictionsContract } from 'hooks/useContract'
 import { Flex } from '@pancakeswap/uikit'
 import { PageMeta } from 'components/Layout/Page'
+import useToast from 'hooks/useToast'
+import Container from 'components/Layout/Container'
 import Hero from './components/Hero'
 import VoteResults from './components/VoteResults'
 import Votes from './components/Votes'
+import ExecuteVotingModal from './components/ExecuteVotingModal'
 
 interface IVote {
   id: string
@@ -16,12 +20,25 @@ interface IVote {
 const Vote = () => {
   const predictionsContract = usePredictionsContract()
   const [votes, setVotes] = useState([])
+  const { account } = useWeb3React()
+  const [readyForCalculate, setReadyForCalculate] = useState(false)
+  const { toastSuccess, toastError } = useToast()
+
+  const handleVoteRoundCalculated = () => {
+    toastSuccess('Voting Calculated!')
+  }
 
   useEffect(() => {
     async function fetchData() {
       if (predictionsContract) {
         try {
           const no = await predictionsContract.currentOracleVoteRound()
+          const latestOracleUpdateTimestamp = await predictionsContract.latestOracleUpdateTimestamp()
+          const oracleVotingPeriod = await predictionsContract.oracleVotingPeriod()
+
+          const time = Number(latestOracleUpdateTimestamp) + Number(oracleVotingPeriod) - Math.round(Date.now() / 1000)
+          if (time < 0) setReadyForCalculate(true)
+
           try {
             const api = await fetch(
               `https://eiwr4ydh0o1u.usemoralis.com:2053/server/functions/oracleUserVotes?_ApplicationId=kER2QPwy25iYZJVH3AIFiBOsuJl5UNPFSjPc8hKp&round=${no}`,
@@ -59,6 +76,11 @@ const Vote = () => {
     <>
       <PageMeta />
       <Hero />
+      {account && readyForCalculate && (
+        <Container mb="16px" width={1 / 2} right="10px">
+          <ExecuteVotingModal handle={handleVoteRoundCalculated} />
+        </Container>
+      )}
       <Flex alignItems="stretch">
         <VoteResults votes={votes} />
         <Votes votes={votes} />
