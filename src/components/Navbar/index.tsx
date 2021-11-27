@@ -8,7 +8,7 @@ const Navbar = () => {
       <Nav>
         <Bars />
         <NavBtn>
-          <p>Bambam predict</p>
+          <p>Hippo Predict</p>
         </NavBtn>
         <NavMenu>
           <NavLink to="/">Prediction</NavLink>

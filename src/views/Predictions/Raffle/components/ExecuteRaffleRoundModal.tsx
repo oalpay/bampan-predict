@@ -13,11 +13,7 @@ const StyledCard = styled(Card)`
     min-width: 240px;
   }
 `
-interface BountyCardProps {
-  handle: any
-}
-
-const BountyCard: React.FC<BountyCardProps> = ({ handle }) => {
+const BountyCard: React.FC = () => {
   const raffleContract = useRaffleContract()
 
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -30,7 +26,6 @@ const BountyCard: React.FC<BountyCardProps> = ({ handle }) => {
       const tx = await callWithGasPrice(raffleContract, 'pickWinner')
       setIsTxPending(true)
       const receipt = await tx.wait()
-      handle()
     } catch {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
     } finally {

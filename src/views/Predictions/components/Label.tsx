@@ -8,7 +8,7 @@ import { useGetCurrentRoundLockTimestamp, useGetLastOraclePrice } from 'state/pr
 import { useTranslation } from 'contexts/Localization'
 import { useGetCurrentRaffle, useRaffleCountdown } from 'state/raffle/hooks'
 import { ImTicket } from 'react-icons/im'
-import { formatRoundTime } from '../helpers'
+import { formatRaffleTime, formatRoundTime } from '../helpers'
 import useCountdown from '../hooks/useCountdown'
 
 const Token = styled(Box)`
@@ -65,6 +65,10 @@ const Price = styled(Text)`
     text-align: center;
   }
 `
+const SmallTitle = styled(Text)`
+  font-size: 12px;
+  height: 18px;
+`
 
 const Interval = styled(Text)`
   ${({ theme }) => theme.mediaQueries.lg} {
@@ -88,6 +92,9 @@ const Label = styled(Flex)<{ dir: 'left' | 'right' }>`
     flex-direction: row;
     padding: ${({ dir }) => (dir === 'right' ? '8px 40px 8px 8px' : '8px 8px 8px 40px')};
   }
+`
+const RaffleAd = styled(Flex)`
+  flex-direction: column;
 `
 
 export const PricePairLabel: React.FC = () => {
@@ -126,6 +133,8 @@ const RaffleIcon = styled(ImTicket)`
 `
 export const RaffleLabel: React.FC = () => {
   const currentRound = useGetCurrentRaffle()
+  const { secondsRemaining } = useRaffleCountdown()
+  const countdown = formatRaffleTime(secondsRemaining)
 
   return (
     <Box pl="24px" position="relative" display="inline-block">
@@ -133,10 +142,10 @@ export const RaffleLabel: React.FC = () => {
         <RaffleIcon />
       </Token>
       <Label dir="left">
-        <Title bold textTransform="uppercase">
-          Raffle
-        </Title>
-        <Price fontSize="12px">{currentRound && `$${currentRound.amount}`}</Price>
+        <RaffleAd>
+          <Price fontSize="12px">{currentRound && `$${currentRound.amount}`}</Price>
+          <SmallTitle>will draw in {countdown}</SmallTitle>
+        </RaffleAd>
       </Label>
     </Box>
   )
