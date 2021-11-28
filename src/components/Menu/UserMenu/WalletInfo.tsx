@@ -39,7 +39,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowBnbBalance, onDismiss }) 
         </Message>
       )}
       <Flex alignItems="center" justifyContent="space-between">
-        <Text color="textSubtle">{t('BNB Balance')}</Text>
+        <Text color="textSubtle">{t('MATIC Balance')}</Text>
         {fetchStatus !== FetchStatus.SUCCESS ? (
           <Skeleton height="22px" width="60px" />
         ) : (
@@ -47,7 +47,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowBnbBalance, onDismiss }) 
         )}
       </Flex>
       <Flex alignItems="center" justifyContent="end" mb="24px">
-        <LinkExternal href={getBscScanLink(account, 'address')}>{t('View on BscScan')}</LinkExternal>
+        <LinkExternal href={getBscScanLink(account, 'address')}>{t('View on MaticScan')}</LinkExternal>
       </Flex>
       <Button variant="secondary" width="100%" onClick={handleLogout}>
         {t('Disconnect Wallet')}
