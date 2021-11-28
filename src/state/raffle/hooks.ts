@@ -17,6 +17,7 @@ export const useGetCurrentRaffle = () => {
   )
   return raffle
 }
+
 export const useGetPreviousRaffle = () => {
   const raffle = useSelector(
     (state: State) =>

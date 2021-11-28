@@ -10,6 +10,7 @@ import { useGetCurrentRaffle, useRaffleCountdown } from 'state/raffle/hooks'
 import { ImTicket } from 'react-icons/im'
 import { formatRaffleTime, formatRoundTime } from '../helpers'
 import useCountdown from '../hooks/useCountdown'
+import { formatWei } from './History/helpers'
 
 const Token = styled(Box)`
   margin-top: -24px;
@@ -135,7 +136,6 @@ export const RaffleLabel: React.FC = () => {
   const currentRound = useGetCurrentRaffle()
   const { secondsRemaining } = useRaffleCountdown()
   const countdown = formatRaffleTime(secondsRemaining)
-
   return (
     <Box pl="24px" position="relative" display="inline-block">
       <Token left={0}>
@@ -143,7 +143,7 @@ export const RaffleLabel: React.FC = () => {
       </Token>
       <Label dir="left">
         <RaffleAd>
-          <Price fontSize="12px">{currentRound && `$${currentRound.amount}`}</Price>
+          <Price fontSize="12px">{currentRound && `${formatWei(currentRound.amount)} MATIC`}</Price>
           <SmallTitle>will draw in {countdown}</SmallTitle>
         </RaffleAd>
       </Label>

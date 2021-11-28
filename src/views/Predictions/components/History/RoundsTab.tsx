@@ -8,7 +8,6 @@ import { Bet } from 'state/types'
 import { fetchNodeHistory } from 'state/predictions'
 import { useGetCurrentHistoryPage, useGetHasHistoryLoaded, useGetIsFetchingHistory } from 'state/predictions/hooks'
 import HistoricalBet from './HistoricalBet'
-import V1ClaimCheck from '../v1/V1ClaimCheck'
 
 interface RoundsTabProps {
   hasBetHistory: boolean
@@ -29,7 +28,6 @@ const RoundsTab: React.FC<RoundsTabProps> = ({ hasBetHistory, bets }) => {
 
   return hasBetHistory ? (
     <>
-      <V1ClaimCheck />
       {orderBy(bets, ['round.epoch'], ['desc']).map((bet) => (
         <HistoricalBet key={bet.round.epoch} bet={bet} />
       ))}
@@ -43,7 +41,6 @@ const RoundsTab: React.FC<RoundsTabProps> = ({ hasBetHistory, bets }) => {
     </>
   ) : (
     <>
-      <V1ClaimCheck />
       <Box p="24px">
         <Heading size="lg" textAlign="center" mb="8px">
           {t('No prediction history available')}

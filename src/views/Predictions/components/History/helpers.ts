@@ -1,3 +1,4 @@
+import { BigNumber, utils } from 'ethers'
 import { Bet, BetPosition } from 'state/types'
 import { formatNumber } from 'utils/formatBalance'
 
@@ -7,6 +8,11 @@ export const formatUsd = (usd: number) => {
 
 export const formatBnb = (bnb: number) => {
   return bnb ? bnb.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 }) : '0'
+}
+export const formatWei = (amount: number) => {
+  const wei = BigNumber.from(amount)
+  const unitAmount = utils.formatEther(wei)
+  return formatBnb(Number(unitAmount))
 }
 
 export const getMultiplier = (total: number, amount: number) => {

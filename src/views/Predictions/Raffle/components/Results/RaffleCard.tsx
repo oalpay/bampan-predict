@@ -5,6 +5,7 @@ import { useTranslation } from 'contexts/Localization'
 import { RaffleRoundData } from 'state/raffle/types'
 import { formatRaffleTime } from 'views/Predictions/helpers'
 import { useRaffleCountdown } from 'state/raffle/hooks'
+import { formatWei } from 'views/Predictions/components/History/helpers'
 import { Row } from './styles'
 
 interface RaffleCardProps {
@@ -49,7 +50,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ round }) => {
           <Text fontSize="12px" color="textSubtle">
             {t('Total Amount')}
           </Text>
-          <Text fontWeight="bold">{`${round.amount}`}</Text>
+          <Text fontWeight="bold">{`${formatWei(round.amount)} MATIC`}</Text>
         </Row>
       </CardBody>
     </Card>
