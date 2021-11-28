@@ -50,6 +50,8 @@ const RankingCard: React.FC<RankingCardProps> = ({ rank, user }) => {
   const { t } = useTranslation()
   const rankColor = getRankingColor(rank)
 
+  if (!user) return <></>
+
   return (
     <Card ribbon={<CardRibbon variantColor={rankColor} text={`#${rank}`} ribbonPosition="left" />}>
       <CardBody p="24px">
