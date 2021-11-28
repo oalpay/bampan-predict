@@ -1,6 +1,7 @@
 import React from 'react'
 import { Flex, FlexProps, Text } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
+import {utils} from "ethers";
 
 export const Row: React.FC<FlexProps> = ({ children, ...props }) => {
   return (
