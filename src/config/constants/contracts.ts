@@ -7,7 +7,7 @@ export default {
   predictions: {
     56: '0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA',
     97: '0xBcA68413F399A184D453b2Bc5b3d3c55a1659558',
-    80001: '0x7A8cCc14cA44aaf84369B4a565C3abCCb12bCbba',
+    80001: '0x020e5d24e862EDF1ff16e0340B493e3a4f2c4E7F',
   },
   chainlinkOracle: {
     56: '0xD276fCF34D54A926773c399eBAa772C12ec394aC',
@@ -17,6 +17,6 @@ export default {
   raffle: {
     56: '',
     97: '',
-    80001: '0xB6F2B75ed0294535555b557DAdC0BCeE075e8C24',
+    80001: '0xD3eEA68bC9733EE7D4278954d03a328487f8CFfE',
   },
 }
