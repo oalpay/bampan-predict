@@ -11,8 +11,10 @@ const defaultOptions = {
   },
 }
 
-const PageLoader: React.FC = () => {
+export const PageSpinner: React.FC = () => {
   return <Lottie options={defaultOptions} height={400} width={400} />
 }
 
-export default PageLoader
+export const SmallSpinner: React.FC = () => {
+  return <Lottie options={defaultOptions} height={100} width={100} />
+}

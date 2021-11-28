@@ -4,7 +4,7 @@ import { fetchCurrentRaffleRound } from 'state/raffle'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state'
 import { useGetCurrentRaffleRound } from 'state/raffle/hooks'
-import PageLoader from 'components/Loader/PageLoader'
+import { PageSpinner } from 'components/Loader/Spinner'
 import Hero from './components/Hero'
 import Results from './components/Results'
 import usePollRaffle from '../hooks/usePollRaffle'
@@ -19,7 +19,7 @@ const Raffle = () => {
   usePollRaffle()
 
   if (!currentRaffleRound) {
-    return <PageLoader />
+    return <PageSpinner />
   }
   return (
     <>

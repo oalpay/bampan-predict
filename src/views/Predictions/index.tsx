@@ -8,7 +8,7 @@ import { useInitialBlock } from 'state/block/hooks'
 import { initializePredictions } from 'state/predictions'
 import { PredictionStatus } from 'state/types'
 import { useUserPredictionAcceptedRisk, useUserPredictionChartDisclaimerShow } from 'state/user/hooks'
-import PageLoader from 'components/Loader/PageLoader'
+import { PageSpinner } from 'components/Loader/Spinner'
 import { PageMeta } from 'components/Layout/Page'
 import { fetchCurrentRaffleRound } from 'state/raffle'
 import usePollPredictions from './hooks/usePollPredictions'
@@ -66,7 +66,7 @@ const Predictions = () => {
   usePollRaffle()
 
   if (status === PredictionStatus.INITIAL) {
-    return <PageLoader />
+    return <PageSpinner />
   }
 
   return (

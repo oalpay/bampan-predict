@@ -15,6 +15,7 @@ import {
   useGetIsFetchingHistory,
   useIsHistoryPaneOpen,
 } from 'state/predictions/hooks'
+import { SmallSpinner } from 'components/Loader/Spinner'
 import { Header, HistoryTabs } from './components/History'
 import RoundsTab from './components/History/RoundsTab'
 import PnlTab from './components/History/PnlTab/PnlTab'
@@ -93,7 +94,7 @@ const History = () => {
       <BetWrapper>
         {isFetchingHistory && currentHistoryPage === 1 ? (
           <SpinnerWrapper>
-            <Spinner size={72} />
+            <SmallSpinner />
           </SpinnerWrapper>
         ) : (
           activeTabComponent

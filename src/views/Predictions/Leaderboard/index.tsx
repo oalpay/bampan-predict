@@ -3,8 +3,8 @@ import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state'
 import { useGetLeaderboardFilters, useGetLeaderboardLoadingState } from 'state/predictions/hooks'
 import { LeaderboardLoadingState } from 'state/types'
-import { fetchPredictionLeaderboard, filterLeaderboard } from 'state/predictions'
-import PageLoader from 'components/Loader/PageLoader'
+import { fetchPredictionLeaderboard } from 'state/predictions'
+import { PageSpinner } from 'components/Loader/Spinner'
 import { PageMeta } from 'components/Layout/Page'
 import Results from './components/Results'
 import ConnectedWalletResult from './components/Results/ConnectedWalletResult'
@@ -21,7 +21,7 @@ const Leaderboard = () => {
   }, [account, filters, dispatch])
 
   if (leaderboardLoadingState === LeaderboardLoadingState.INITIAL) {
-    return <PageLoader />
+    return <PageSpinner />
   }
 
   return (

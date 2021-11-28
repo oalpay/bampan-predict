@@ -1,13 +1,12 @@
 import React from 'react'
-import Lottie from 'react-lottie'
 import { Card, CardBody, Flex, Spinner, WaitIcon, TooltipText, useTooltip, InfoIcon } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { NodeRound, BetPosition } from 'state/types'
 import useTheme from 'hooks/useTheme'
+import { SmallSpinner } from 'components/Loader/Spinner'
 import { RoundResultBox } from '../RoundResult'
 import MultiplierArrow from './MultiplierArrow'
 import CardHeader, { getBorderBackground } from './CardHeader'
-import animationData from './testanim.json'
 
 interface CalculatingCardProps {
   round: NodeRound
@@ -23,15 +22,6 @@ const CalculatingCard: React.FC<CalculatingCardProps> = ({ round, hasEnteredUp, 
     { placement: 'bottom' },
   )
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  }
-
   return (
     <>
       <Card borderBackground={getBorderBackground(theme, 'calculating')}>
@@ -45,7 +35,7 @@ const CalculatingCard: React.FC<CalculatingCardProps> = ({ round, hasEnteredUp, 
           <MultiplierArrow isDisabled hasEntered={hasEnteredUp} />
           <RoundResultBox>
             <Flex alignItems="center" justifyContent="center" flexDirection="column">
-              <Lottie options={defaultOptions} height={100} width={100} />
+              <SmallSpinner />
               <Flex mt="8px" ref={targetRef}>
                 <TooltipText>{t('Calculating')}</TooltipText>
                 <InfoIcon ml="4px" />

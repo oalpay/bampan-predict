@@ -11,7 +11,7 @@ import Navbar from 'components/Navbar'
 
 import SuspenseWithChunkError from './components/SuspenseWithChunkError'
 import { ToastListener } from './contexts/ToastsContext'
-import PageLoader from './components/Loader/PageLoader'
+import { PageSpinner } from './components/Loader/Spinner'
 import history from './routerHistory'
 import GlobalStyle from './style/Global'
 
@@ -40,7 +40,7 @@ const App: React.FC = () => {
       <ResetCSS />
       <GlobalStyle />
       <Navbar />
-      <SuspenseWithChunkError fallback={<PageLoader />}>
+      <SuspenseWithChunkError fallback={<PageSpinner />}>
         <Switch>
           <Route path="/" exact>
             <Predictions />
