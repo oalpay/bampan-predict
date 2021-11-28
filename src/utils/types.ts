@@ -28,6 +28,7 @@ export interface PredictionsRoundsResponse {
   rewardBaseCalAmount: ethers.BigNumber
   rewardAmount: ethers.BigNumber
   oracleCalled: boolean
+  oracleAddress: string
 }
 
 // [rounds, ledgers, count]

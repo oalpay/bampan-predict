@@ -12,6 +12,7 @@ const Navbar = () => {
         </NavBtn>
         <NavMenu>
           <NavLink to="/">Prediction</NavLink>
+          <NavLink to="/vote">Vote Ticker</NavLink>
           <NavLink to="/raffle">Raffle</NavLink>
           <NavLink to="/predictions/leaderboard">Leaderboard</NavLink>
           {/* Second Nav */}

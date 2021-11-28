@@ -1,6 +1,17 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Box, Button, Card, CardBody, Flex, Heading, HelpIcon, Text, useTooltip } from '@pancakeswap/uikit'
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  HelpIcon,
+  Text,
+  useTooltip,
+  AutoRenewIcon,
+} from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useRaffleContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
@@ -67,8 +78,15 @@ const BountyCard: React.FC = () => {
           </Flex>
           <Flex flexDirection="column" justify-content="space-evenly" align-items="flex-end" mr="12px">
             <Heading>{t('Raffle round is ready for drawing!')}</Heading>
-            <Button my="24px" onClick={handleExecuteRound} scale="sm" id="clickClaimVaultBounty">
-              {t('Start the Raffle')}
+            <Button
+              my="24px"
+              onClick={handleExecuteRound}
+              isLoading={isTxPending}
+              scale="sm"
+              id="clickClaimVaultBounty"
+              endIcon={isTxPending ? <AutoRenewIcon color="currentColor" spin /> : null}
+            >
+              {t('Draw the Raffle')}
             </Button>
           </Flex>
         </CardBody>

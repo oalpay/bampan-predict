@@ -342,6 +342,7 @@ export interface ReduxNodeRound {
   rewardBaseCalAmount: BigNumberToJson
   rewardAmount: BigNumberToJson
   oracleCalled: boolean
+  oracleAddress: string
   lockOracleId: string
   closeOracleId: string
 }

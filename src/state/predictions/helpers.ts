@@ -442,6 +442,7 @@ export const getRoundsData = async (epochs: number[]): Promise<PredictionsRounds
     rewardBaseCalAmount: response[index].rewardBaseCalAmount,
     rewardAmount: response[index].rewardAmount,
     oracleCalled: response[index].oracleCalled,
+    oracleAddress: response[index].oracleAddress,
   }))
   return roundsResponse
 }
@@ -462,6 +463,7 @@ export const makeFutureRoundResponse = (epoch: number, startTimestamp: number): 
     oracleCalled: false,
     lockOracleId: null,
     closeOracleId: null,
+    oracleAddress: null,
   }
 }
 
@@ -522,6 +524,7 @@ export const serializePredictionsRoundsResponse = (response: PredictionsRoundsRe
     oracleCalled,
     lockOracleId,
     closeOracleId,
+    oracleAddress,
   } = response
 
   return {
@@ -539,6 +542,7 @@ export const serializePredictionsRoundsResponse = (response: PredictionsRoundsRe
     rewardAmount: rewardAmount.toJSON(),
     lockOracleId: lockOracleId.toString(),
     closeOracleId: closeOracleId.toString(),
+    oracleAddress: oracleAddress.toString(),
   }
 }
 

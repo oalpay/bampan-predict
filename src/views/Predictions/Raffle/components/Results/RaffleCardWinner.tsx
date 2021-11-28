@@ -21,7 +21,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ round }) => {
   const { t } = useTranslation()
 
   return (
-    <Card ribbon={<CardRibbon variantColor="gold" text={`Round ${round}`} ribbonPosition="left" />}>
+    <Card ribbon={<CardRibbon variantColor="gold" text={`Round ${round.round}`} ribbonPosition="left" />}>
       <CardBody p="24px">
         <Flex alignItems="center" justifyContent="center" flexDirection="column" mb="24px">
           <Flex mb="4px">

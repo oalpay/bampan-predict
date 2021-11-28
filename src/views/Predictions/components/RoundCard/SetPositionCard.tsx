@@ -27,6 +27,7 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { BetPosition } from 'state/types'
 import { formatBigNumber, formatFixedNumber } from 'utils/formatBalance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import Icon from 'react-crypto-icons'
 import PositionTag from '../PositionTag'
 import useSwiper from '../../hooks/useSwiper'
 import FlexRow from '../FlexRow'
@@ -198,9 +199,9 @@ const SetPositionCard: React.FC<SetPositionCardProps> = ({ position, togglePosit
             {t('Commit')}:
           </Text>
           <Flex alignItems="center">
-            <BinanceIcon mr="4px  " />
+            <Icon name="matic" size={20} />
             <Text bold textTransform="uppercase">
-              BNB
+              MATIC
             </Text>
           </Flex>
         </Flex>
