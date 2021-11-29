@@ -102,69 +102,11 @@ const Gutter = styled.div`
 
 const Desktop: React.FC = () => {
   const splitWrapperRef = useRef<HTMLDivElement>()
-  const chartRef = useRef<HTMLDivElement>()
-  const gutterRef = useRef<HTMLDivElement>()
   const isHistoryPaneOpen = useIsHistoryPaneOpen()
-  const isChartPaneOpen = useIsChartPaneOpen()
-  const dispatch = useAppDispatch()
-  const { t } = useTranslation()
   const status = useGetPredictionsStatus()
-
-  const toggleChartPane = () => {
-    const newChartPaneState = !isChartPaneOpen
-
-    if (newChartPaneState) {
-      splitWrapperRef.current.style.transition = 'grid-template-rows 150ms'
-      splitWrapperRef.current.style.gridTemplateRows = GRID_TEMPLATE_ROW
-
-      // Purely comedic: We only want to animate if we are clicking the open chart button
-      // If we keep the transition on the resizing becomes very choppy
-      delay(() => {
-        splitWrapperRef.current.style.transition = ''
-      }, 150)
-    }
-
-    dispatch(setChartPaneState(newChartPaneState))
-  }
-
-  useEffect(() => {
-    const threshold = 100
-    const handleDrag = debounce(() => {
-      const { height } = chartRef.current.getBoundingClientRect()
-
-      // If the height of the chart pane goes below the "snapOffset" threshold mark the chart pane as closed
-      dispatch(setChartPaneState(height > threshold))
-    }, 50)
-
-    const split = Split({
-      dragInterval: 1,
-      snapOffset: threshold,
-      onDrag: handleDrag,
-      rowGutters: [
-        {
-          track: 1,
-          element: gutterRef.current,
-        },
-      ],
-    })
-
-    return () => {
-      split.destroy()
-    }
-  }, [gutterRef, chartRef, dispatch])
 
   return (
     <>
-      {!isChartPaneOpen && (
-        <ExpandChartButton
-          variant="tertiary"
-          scale="sm"
-          startIcon={isChartPaneOpen ? <ArrowDownIcon /> : <ChartIcon />}
-          onClick={toggleChartPane}
-        >
-          {isChartPaneOpen ? t('Close') : t('Charts')}
-        </ExpandChartButton>
-      )}
       <StyledDesktop>
         <SplitWrapper ref={splitWrapperRef}>
           <PositionPane>
@@ -172,10 +114,6 @@ const Desktop: React.FC = () => {
             {status === PredictionStatus.PAUSED && <PauseNotification />}
             {status === PredictionStatus.LIVE && <Positions />}
           </PositionPane>
-          <Gutter ref={gutterRef} />
-          <ChartPane ref={chartRef}>
-            <TradingView />
-          </ChartPane>
         </SplitWrapper>
         <HistoryPane isHistoryPaneOpen={isHistoryPaneOpen}>
           <History />

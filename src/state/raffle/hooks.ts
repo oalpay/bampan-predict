@@ -70,7 +70,9 @@ export const useGetRaffleData = () => {
 export const useRaffleCountdown = () => {
   const raffleData = useGetRaffleData()
   const currentRound = useGetCurrentRaffle()
-  return useCountdown(currentRound.startTimestamp + raffleData.raffleDuration)
+  const countDownFrom =
+    currentRound && raffleData ? currentRound.startTimestamp + raffleData.raffleDuration : Math.floor(Date.now() / 1000)
+  return useCountdown(countDownFrom)
 }
 
 const getNow = () => Math.floor(Date.now() / 1000)

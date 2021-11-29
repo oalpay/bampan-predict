@@ -8,6 +8,7 @@ const Navbar = () => {
       <Nav>
         <Bars />
         <NavBtn>
+          <img src="/logo.png" alt="logo" width="50px" height="50px" />
           <p>Hippo Predict</p>
         </NavBtn>
         <NavMenu>

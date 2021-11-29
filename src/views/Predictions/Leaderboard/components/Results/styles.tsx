@@ -1,8 +1,8 @@
 import React from 'react'
 import { Flex, FlexProps, Text } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import {BigNumber, utils} from "ethers";
-import {formatUnits} from "@ethersproject/units/src.ts/index";
+import { BigNumber, utils } from 'ethers'
+import { formatUnits } from '@ethersproject/units/src.ts/index'
 
 export const Row: React.FC<FlexProps> = ({ children, ...props }) => {
   return (
@@ -28,7 +28,7 @@ export const NetWinnings: React.FC<NetWinningsProps> = ({ amount, textPrefix = '
   return (
     <Flex flexDirection="column" alignItems="flex-end" {...props}>
       <Text fontWeight="bold" color={textColor}>
-          {`${textPrefix}${utils.formatUnits(amount/100, 16)}`}
+        {`${textPrefix}${utils.formatUnits(amount / 100, 16)}`}
       </Text>
       <Text fontSize="12px" color="textSubtle" lineHeight={1}>
         {`~$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
