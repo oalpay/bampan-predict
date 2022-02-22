@@ -11,21 +11,20 @@ import { RoundResultBox } from '../RoundResult'
 import MultiplierArrow from './MultiplierArrow'
 import CardHeader, { getBorderBackground } from './CardHeader'
 
-
 interface CanceledRoundCardProps {
   round: NodeRound
 }
 const CardParent = styled.div`
-&::after{
-  content: "";
-  background: url(/hippo-orange.svg) no-repeat top center;
-  width: 98px;
-  height: 90px;
-  position: absolute;
-  left: 50%;
-  top: -60px;
-  transform: translateX(-50%);
-}
+  &::after {
+    content: '';
+    background: url(/hippo-orange.svg) no-repeat top center;
+    width: 98px;
+    height: 90px;
+    position: absolute;
+    left: 50%;
+    top: -60px;
+    transform: translateX(-50%);
+  }
 `
 const CanceledRoundCard: React.FC<CanceledRoundCardProps> = ({ round }) => {
   const { t } = useTranslation()

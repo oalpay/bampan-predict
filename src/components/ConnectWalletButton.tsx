@@ -1,11 +1,11 @@
 import React from 'react'
-import {  useWalletModal } from '@pancakeswap/uikit'
+import { useWalletModal } from '@pancakeswap/uikit'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
 
 const Button = styled.button`
-  background: #EE9B00;
+  background: #ee9b00;
   border-radius: 10px;
   width: 217px;
   height: 45px;
@@ -17,7 +17,7 @@ const Button = styled.button`
   text-align: center;
   letter-spacing: -0.015em;
   border: 0;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-left: auto;
 `
 const ConnectWalletButton = (props) => {
