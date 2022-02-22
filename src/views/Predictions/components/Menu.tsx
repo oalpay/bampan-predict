@@ -57,7 +57,7 @@ const ButtonWrapper = styled.div`
     margin-left: 8px;
   }
 `
-const Box = styled.a`
+const Box = styled.span`
   background: rgb(25 43 75 / 70%);
   display: block;
   margin-left: 8px;
