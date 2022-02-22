@@ -124,7 +124,7 @@ const CollectRoundWinningsModal: React.FC<CollectRoundWinningsModalProps> = ({ o
           {t('Your prizes have been sent to your wallet')}
         </ToastDescriptionWithTx>,
       )
-    } catch (error) {
+    } catch (error: any) {
       console.error('Unable to claim winnings', error)
       toastError(
         t('Error'),
