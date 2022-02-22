@@ -17,12 +17,11 @@ const HistoryButton = () => {
 
   return (
     <>
-     
       <IconButton
         id="prediction-history-button"
         onClick={handleClick}
         isLoading={isFetchingHistory}
-        disabled={!account} 
+        disabled={!account}
       >
         {isFetchingHistory ? <AutoRenewIcon spin color="white" /> : <HistoryIcon width="34px" color="white" />}
       </IconButton>

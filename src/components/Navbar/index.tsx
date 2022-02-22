@@ -4,8 +4,8 @@ import { Nav, NavLink, Bars, NavMenu, NavBtn } from './NavbarElements'
 
 const Navbar = () => {
   const style = {
-    marginRight:'10px'
-  };
+    marginRight: '10px',
+  }
   return (
     <>
       <Nav>
@@ -23,7 +23,7 @@ const Navbar = () => {
           {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
         </NavMenu>
         {/* <NavBtn> */}
-          <UserMenu />
+        <UserMenu />
         {/* </NavBtn> */}
       </Nav>
     </>

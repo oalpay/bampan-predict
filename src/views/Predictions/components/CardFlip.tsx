@@ -19,9 +19,9 @@ const Front = styled.div`
   width: 100%;
   position: relative;
   padding-top: 40px;
-  &::after{
-    content: "";
-    background: url(/hippo-purple.svg)  no-repeat top center;
+  &::after {
+    content: '';
+    background: url(/hippo-purple.svg) no-repeat top center;
     width: 98px;
     height: 90px;
     position: absolute;

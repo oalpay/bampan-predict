@@ -17,8 +17,7 @@ const Token = styled(Box)`
   // position: absolute;
   // top: 50%;
   // z-index: 30;
-  dis
-  & > svg {
+  dis & > svg {
     height: 48px;
     width: 48px;
   }
@@ -47,8 +46,8 @@ const Title = styled(Text)`
   // display: flex;
   // align-items: center;
   letter-spacing: -0.015em;
-  
-  color: #FFFFFF;
+
+  color: #ffffff;
   ${({ theme }) => theme.mediaQueries.lg} {
     font-size: 20px;
     line-height: 22px;
@@ -97,7 +96,7 @@ const Interval = styled(Text)`
   }
 `
 
-const Label = styled(Flex) <{ dir: 'left' | 'right' }>`
+const Label = styled(Flex)<{ dir: 'left' | 'right' }>`
   background-color: rgb(25 43 75 / 70%);
   align-items: ${({ dir }) => (dir === 'right' ? 'flex-end' : 'flex-start')};
   border-radius: ${({ dir }) => (dir === 'right' ? '10px' : '10px')};
@@ -125,7 +124,7 @@ const Source = styled.div`
   align-items: center;
   letter-spacing: -0.015em;
 
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 export const PricePairLabel: React.FC = () => {
@@ -146,7 +145,6 @@ export const PricePairLabel: React.FC = () => {
 
   return (
     <Box width={290} position="relative" display="inline-block">
-
       <Label dir="left">
         <Token left={0}>
           <img src="/coin.png" alt="logo" width="50px" height="50px" />
@@ -156,7 +154,6 @@ export const PricePairLabel: React.FC = () => {
           Name <Price fontSize="12px">{`$${countUp}`}</Price>
           <Source>Source: Binance</Source>
         </Title>
-
       </Label>
     </Box>
   )
@@ -200,7 +197,7 @@ const TextTimer = styled.div`
   align-items: center;
   letter-spacing: -0.015em;
 
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 export const TimerLabel: React.FC<TimerLabelProps> = ({ interval, unit }) => {
@@ -228,7 +225,6 @@ export const TimerLabel: React.FC<TimerLabelProps> = ({ interval, unit }) => {
         )}
         <Interval fontSize="12px">{`${interval}${t(unit)}`}</Interval>
       </Label>
-
     </Box>
   )
 }

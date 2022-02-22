@@ -94,16 +94,23 @@ const Menu = () => {
           <TimerLabelWrapper>
             <TimerLabel interval="5" unit="m" />
           </TimerLabelWrapper>
-          <ButtonWrapper style={{ order: 3}}>
+          <ButtonWrapper style={{ order: 3 }}>
             <HistoryButton />
           </ButtonWrapper>
           <LeaderboardButtonWrapper>
-            <Link to="/prediction/leaderboard"><Box><img src="/prize.svg" alt="prize icon"/></Box></Link>
+            <Link to="/prediction/leaderboard">
+              <Box>
+                <img src="/prize.svg" alt="prize icon" />
+              </Box>
+            </Link>
           </LeaderboardButtonWrapper>
           <LeaderboardButtonWrapper>
-            <Link to="/prediction/leaderboard"><Box><img src="/chart.svg" alt="chart icon"/></Box></Link>
+            <Link to="/prediction/leaderboard">
+              <Box>
+                <img src="/chart.svg" alt="chart icon" />
+              </Box>
+            </Link>
           </LeaderboardButtonWrapper>
-          
         </Flex>
       </SetCol>
     </FlexDiv>
