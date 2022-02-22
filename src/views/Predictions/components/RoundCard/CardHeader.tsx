@@ -75,6 +75,8 @@ const StyledCardHeader = styled.div<{ status: Status }>`
   justify-content: space-between;
   height: ${HEADER_HEIGHT};
   padding: ${({ status }) => (status === 'live' ? '16px' : '8px')};
+  position: relative;
+
 `
 
 const Round = styled.div`

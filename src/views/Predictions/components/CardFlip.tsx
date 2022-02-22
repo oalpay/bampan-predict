@@ -17,7 +17,18 @@ const Front = styled.div`
   top: 0;
   transition: z-index 600ms;
   width: 100%;
-
+  position: relative;
+  padding-top: 40px;
+  &::after{
+    content: "";
+    background: url(/hippo-purple.svg)  no-repeat top center;
+    width: 98px;
+    height: 90px;
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+  }
   & > div {
     flex: 1;
   }

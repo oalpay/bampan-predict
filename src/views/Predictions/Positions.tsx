@@ -15,6 +15,10 @@ import { PageView } from './types'
 SwiperCore.use([Keyboard, Mousewheel])
 
 const StyledSwiper = styled.div`
+  
+  ${({ theme }) => theme.mediaQueries.lg} {
+    margin-top: 100px;
+  }
   .swiper-wrapper {
     align-items: center;
     display: flex;
@@ -37,7 +41,7 @@ const Positions: React.FC<{ view?: PageView }> = ({ view }) => {
 
   return (
     <Box overflow="hidden">
-      <Menu />
+      <Menu/>
       <StyledSwiper>
         <Swiper
           initialSlide={swiperIndex}

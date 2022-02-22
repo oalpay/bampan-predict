@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 import { Flex, HelpIcon, Button, PrizeIcon } from '@pancakeswap/uikit'
 import FlexRow from './FlexRow'
 import { PricePairLabel, TimerLabel, RaffleLabel } from './Label'
@@ -10,9 +10,10 @@ import HistoryButton from './HistoryButton'
 const SetCol = styled.div`
   flex: none;
   width: auto;
-
+  margin: 0px auto 10px;
   ${({ theme }) => theme.mediaQueries.lg} {
-    width: 270px;
+    margin: initial;
+    // width: 270px;
   }
 `
 
@@ -56,35 +57,56 @@ const ButtonWrapper = styled.div`
     margin-left: 8px;
   }
 `
+const Box = styled.a`
+  background: rgb(25 43 75 / 70%);
+  display: block;
+  margin-left: 8px;
+  box-shadow: 0px 8px 2px rgba(0, 0, 0, 0.04);
+  border-radius: 10px;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  padding-top: 27px;
+`
+const FlexDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  ${({ theme }) => theme.mediaQueries.md} {
+    flex-direction: row;
+  }
+`
 
 const Menu = () => {
   return (
-    <FlexRow alignItems="center" p="16px">
+    <FlexDiv>
       <SetCol>
         <PricePairLabel />
       </SetCol>
       <SetCol>
         <RaffleLabel />
       </SetCol>
-      <FlexRow justifyContent="center">
+      {/* <FlexRow justifyContent="center">
         <PrevNextNav />
-      </FlexRow>
+      </FlexRow> */}
       <SetCol>
         <Flex alignItems="center" justifyContent="flex-end">
           <TimerLabelWrapper>
             <TimerLabel interval="5" unit="m" />
           </TimerLabelWrapper>
-          <LeaderboardButtonWrapper>
-            <Button as={Link} variant="subtle" to="/prediction/leaderboard" width="48px">
-              <PrizeIcon color="white" />
-            </Button>
-          </LeaderboardButtonWrapper>
-          <ButtonWrapper style={{ order: 4 }}>
+          <ButtonWrapper style={{ order: 3}}>
             <HistoryButton />
           </ButtonWrapper>
+          <LeaderboardButtonWrapper>
+            <Link to="/prediction/leaderboard"><Box><img src="/prize.svg" alt="prize icon"/></Box></Link>
+          </LeaderboardButtonWrapper>
+          <LeaderboardButtonWrapper>
+            <Link to="/prediction/leaderboard"><Box><img src="/chart.svg" alt="chart icon"/></Box></Link>
+          </LeaderboardButtonWrapper>
+          
         </Flex>
       </SetCol>
-    </FlexRow>
+    </FlexDiv>
   )
 }
 

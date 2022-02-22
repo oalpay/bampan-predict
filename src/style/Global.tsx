@@ -19,6 +19,17 @@ const GlobalStyle = createGlobalStyle`
       max-width: 100%;
     }
   }
+  #prediction-history-button{
+    background: rgb(25 43 75 / 70%);
+    display: block;
+    margin-left: 8px;
+    box-shadow: 0px 8px 2px rgb(0 0 0 / 4%);
+    border-radius: 10px;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    padding-top: 5px;
+  }
 `
 
 export default GlobalStyle

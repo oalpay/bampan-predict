@@ -1,15 +1,32 @@
 import React from 'react'
-import { Button, useWalletModal } from '@pancakeswap/uikit'
+import {  useWalletModal } from '@pancakeswap/uikit'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
+import styled from 'styled-components'
 
+const Button = styled.button`
+  background: #EE9B00;
+  border-radius: 10px;
+  width: 217px;
+  height: 45px;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: -0.015em;
+  border: 0;
+  color: #FFFFFF;
+  margin-left: auto;
+`
 const ConnectWalletButton = (props) => {
   const { t } = useTranslation()
   const { login, logout } = useAuth()
   const { onPresentConnectModal } = useWalletModal(login, logout, t)
 
   return (
-    <Button onClick={onPresentConnectModal} {...props}>
+    <Button type="button" onClick={onPresentConnectModal} {...props}>
       {t('Connect Wallet')}
     </Button>
   )

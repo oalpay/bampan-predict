@@ -1,5 +1,6 @@
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
+import styled from 'styled-components'
 import { AutoRenewIcon, HistoryIcon, IconButton } from '@pancakeswap/uikit'
 import { useAppDispatch } from 'state'
 import { setHistoryPaneState } from 'state/predictions'
@@ -15,15 +16,17 @@ const HistoryButton = () => {
   }
 
   return (
-    <IconButton
-      id="prediction-history-button"
-      variant="subtle"
-      onClick={handleClick}
-      isLoading={isFetchingHistory}
-      disabled={!account}
-    >
-      {isFetchingHistory ? <AutoRenewIcon spin color="white" /> : <HistoryIcon width="24px" color="white" />}
-    </IconButton>
+    <>
+     
+      <IconButton
+        id="prediction-history-button"
+        onClick={handleClick}
+        isLoading={isFetchingHistory}
+        disabled={!account} 
+      >
+        {isFetchingHistory ? <AutoRenewIcon spin color="white" /> : <HistoryIcon width="34px" color="white" />}
+      </IconButton>
+    </>
   )
 }
 
