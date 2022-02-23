@@ -12,8 +12,13 @@ import useAuth from 'hooks/useAuth'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { FetchStatus, useGetBnbBalance } from 'hooks/useTokenBalance'
 import { useTranslation } from 'contexts/Localization'
+import styled from 'styled-components'
 import WalletModal, { WalletView, LOW_BNB_BALANCE } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'
+
+const StyledMenu = styled.div`
+  margin-left: auto;
+`
 
 const UserMenu = () => {
   const { t } = useTranslation()
@@ -29,20 +34,22 @@ const UserMenu = () => {
   }
 
   return (
-    <UIKitUserMenu account={account}>
-      <WalletUserMenuItem hasLowBnbBalance={hasLowBnbBalance} onPresentWalletModal={onPresentWalletModal} />
-      <UserMenuItem as="button" onClick={onPresentTransactionModal}>
-        {t('Transactions')}
-      </UserMenuItem>
-      <UserMenuDivider />
-      <UserMenuDivider />
-      <UserMenuItem as="button" onClick={logout}>
-        <Flex alignItems="center" justifyContent="space-between" width="100%">
-          {t('Disconnect')}
-          <LogoutIcon />
-        </Flex>
-      </UserMenuItem>
-    </UIKitUserMenu>
+    <StyledMenu>
+      <UIKitUserMenu account={account}>
+        <WalletUserMenuItem hasLowBnbBalance={hasLowBnbBalance} onPresentWalletModal={onPresentWalletModal} />
+        <UserMenuItem as="button" onClick={onPresentTransactionModal}>
+          {t('Transactions')}
+        </UserMenuItem>
+        <UserMenuDivider />
+        <UserMenuDivider />
+        <UserMenuItem as="button" onClick={logout}>
+          <Flex alignItems="center" justifyContent="space-between" width="100%">
+            {t('Disconnect')}
+            <LogoutIcon />
+          </Flex>
+        </UserMenuItem>
+      </UIKitUserMenu>
+    </StyledMenu>
   )
 }
 
