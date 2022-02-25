@@ -18,7 +18,6 @@ const Front = styled.div`
   transition: z-index 600ms;
   width: 100%;
   position: relative;
-  padding-top: 40px;
   &::after {
     content: '';
     background: url(/hippo-purple.svg) no-repeat top center;
