@@ -89,12 +89,12 @@ const SmallTitle = styled(Text)`
   color: #fff;
 `
 
-const Interval = styled(Text)`
-  ${({ theme }) => theme.mediaQueries.lg} {
-    text-align: center;
-    width: 32px;
-  }
-`
+// const Interval = styled(Text)`
+//   ${({ theme }) => theme.mediaQueries.lg} {
+//     text-align: center;
+//     width: 32px;
+//   }
+// `
 
 const Label = styled(Flex)<{ dir: 'left' | 'right' }>`
   background-color: rgb(25 43 75 / 70%);
@@ -223,7 +223,7 @@ export const TimerLabel: React.FC<TimerLabelProps> = ({ interval, unit }) => {
             {t('Closing')}
           </ClosingTitle>
         )}
-        <Interval fontSize="12px">{`${interval}${t(unit)}`}</Interval>
+        {/* <Interval fontSize="12px">{`${interval}${t(unit)}`}</Interval> */}
       </Label>
     </Box>
   )
